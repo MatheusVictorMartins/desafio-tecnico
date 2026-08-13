@@ -26,7 +26,7 @@ sudo -u postgres psql -f scripts/setup-db.sql
 ```
 
 
-Cria o banco `sigweb`. A aplicação conecta como o usuário `postgres` (veja
+Cria o banco `webgis`. A aplicação conecta como o usuário `postgres` (veja
 `backend/src/main/resources/application.properties`) — ajuste ali se o seu
 Postgres usar outra senha. As tabelas são criadas na primeira subida do backend.
 
