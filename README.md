@@ -1,4 +1,4 @@
-# SIG-Web — Teste Técnico
+# Maptriz — Teste Técnico
 
 Cadastro de imóveis georreferenciados. O sistema já funciona: lista, cadastra,
 edita e exclui imóveis.
