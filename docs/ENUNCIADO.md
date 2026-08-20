@@ -5,11 +5,11 @@ edita e exclui imóveis.
 
 ## Stack
 
-| Camada   | Tecnologia                         |
-| -------- | ---------------------------------- |
-| Backend  | Java 21, Spring Boot 3.5.16, Maven |
-| Banco    | PostgreSQL                         |
-| Frontend | Angular 22                         |
+| Camada   | Tecnologia                          |
+|----------|-------------------------------------|
+| Backend  | Java 21, Spring Boot 3.5.16, Maven  |
+| Banco    | PostgreSQL                          |
+| Frontend | Angular 22                          |
 
 ## Pré-requisitos
 
@@ -24,6 +24,7 @@ Use o comando abaixo ou crie manualmente no banco.
 ```bash
 sudo -u postgres psql -f scripts/setup-db.sql
 ```
+
 
 Cria o banco `webgis`. A aplicação conecta como o usuário `postgres` (veja
 `backend/src/main/resources/application.properties`) — ajuste ali se o seu
@@ -42,28 +43,28 @@ entidade `Imovel` (`spring.jpa.hibernate.ddl-auto=update`), e o
 
 ### Campos do imóvel
 
-| Campo          | Tipo    | Observação              |
-| -------------- | ------- | ----------------------- |
-| `proprietario` | texto   |                         |
-| `municipio`    | texto   |                         |
-| `uf`           | texto   |                         |
-| `bairro`       | texto   |                         |
-| `rua`          | texto   |                         |
-| `numero`       | texto   | aceita `S/N`, `123-A`   |
-| `latitude`     | número  | graus decimais (WGS 84) |
-| `longitude`    | número  | graus decimais (WGS 84) |
-| `areaM2`       | número  | área do terreno em m²   |
-| `ativo`        | boolean |                         |
+| Campo          | Tipo    | Observação                        |
+|----------------|---------|-----------------------------------|
+| `proprietario` | texto   |                                   |
+| `municipio`    | texto   |                                   |
+| `uf`           | texto   |                                   |
+| `bairro`       | texto   |                                   |
+| `rua`          | texto   |                                   |
+| `numero`       | texto   | aceita `S/N`, `123-A`             |
+| `latitude`     | número  | graus decimais (WGS 84)           |
+| `longitude`    | número  | graus decimais (WGS 84)           |
+| `areaM2`       | número  | área do terreno em m²             |
+| `ativo`        | boolean |                                   |
 
 ### Endpoints
 
-| Método   | Rota                | Descrição              |
-| -------- | ------------------- | ---------------------- |
+| Método   | Rota                | Descrição             |
+|----------|---------------------|-----------------------|
 | `GET`    | `/api/imoveis`      | Lista todos os imóveis |
 | `GET`    | `/api/imoveis/{id}` | Busca por id           |
-| `POST`   | `/api/imoveis`      | Cadastra               |
-| `PUT`    | `/api/imoveis/{id}` | Atualiza               |
-| `DELETE` | `/api/imoveis/{id}` | Exclui                 |
+| `POST`   | `/api/imoveis`      | Cadastra              |
+| `PUT`    | `/api/imoveis/{id}` | Atualiza              |
+| `DELETE` | `/api/imoveis/{id}` | Exclui                |
 
 ## 3. Frontend
 
@@ -189,7 +190,7 @@ Requisitos mínimos:
 
 Você tem liberdade total na abordagem: conversão das coordenadas, criação do
 polígono, validação da geometria, consulta espacial e comunicação entre frontend
-e backend. **PostGIS não é obrigatório** (extensão do postgres), mas usá-lo conta como diferencial.
+e backend. **PostGIS não é obrigatório** (extensão do postgres),  mas usá-lo conta como diferencial.
 
 ---
 
@@ -198,13 +199,13 @@ existe, como decide o que mexer primeiro, e como escreve código novo dentro de
 uma base que você não escreveu. Explicar uma decisão vale mais do que entregar
 todas as tarefas.
 
----
+--- 
 
 ## Avaliação
 
 Após concluir os projetos, tenha certeza de detalhar as tecnologias utilizadas em seus respectivos READMEs. Após isso, envie os links para os projetos no GitHub para o e-mail processoseletivo@maptriz.com.br.
 
-A equipe técnica da Maptriz realizará um _Code Review_ de seus projetos e, eventualmente, marcará uma reunião remota para discutir a sua solução dos desafios.
+A equipe técnica da Maptriz realizará um *Code Review* de seus projetos e, eventualmente, marcará uma reunião remota para discutir a sua solução dos desafios.
 
 ## Conclusão
 
