@@ -13,15 +13,6 @@ Tarefa N do enunciado (`docs/ENUNCIADO.md`).
 
 <!-- Ex.: tarefa 3: voltar da edição não pode disparar nova requisição -->
 
-## Escopo
-
-- [ ]
-- [ ]
-
-## Fora de escopo
-
-<!-- o que deliberadamente não entra aqui e por quê -->
-
 ## Critério de aceite
 
 ## Decisão a documentar
