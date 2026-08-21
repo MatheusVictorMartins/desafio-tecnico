@@ -1,35 +1,26 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+
+import { FormImoveis } from '../form-imoveis/form-imoveis';
 
 @Component({
   selector: 'app-imoveis',
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormImoveis],
   templateUrl: './imoveis.html',
-  styleUrl: './imoveis.scss'
+  styleUrl: './imoveis.scss',
 })
 export class Imoveis implements OnInit {
+  private formulario = viewChild.required(FormImoveis);
 
   imoveis: any = [];
   carregando: any = false;
   mensagem: any = '';
-  editandoId: any = null;
 
-  form: any = {
-    proprietario: '',
-    municipio: '',
-    uf: '',
-    bairro: '',
-    rua: '',
-    numero: '',
-    latitude: null,
-    longitude: null,
-    areaM2: null,
-    ativo: true
-  };
-
-  constructor(private http: HttpClient, private cdr: ChangeDetectorRef) { }
+  constructor(
+    private http: HttpClient,
+    private cdr: ChangeDetectorRef,
+  ) {}
 
   ngOnInit() {
     this.carregar();
@@ -46,33 +37,8 @@ export class Imoveis implements OnInit {
     });
   }
 
-  salvar() {
-    if (this.editandoId != null) {
-      this.http.put('http://localhost:8080/api/imoveis/' + this.editandoId, this.form).subscribe((res: any) => {
-        this.mensagem = 'Imóvel atualizado!';
-
-        this.http.get('http://localhost:8080/api/imoveis').subscribe((r: any) => {
-          this.imoveis = r;
-          this.limpar();
-          this.cdr.detectChanges();
-        });
-      });
-    } else {
-      this.http.post('http://localhost:8080/api/imoveis', this.form).subscribe((res: any) => {
-        this.mensagem = 'Imóvel cadastrado!';
-
-        this.http.get('http://localhost:8080/api/imoveis').subscribe((r: any) => {
-          this.imoveis = r;
-          this.limpar();
-          this.cdr.detectChanges();
-        });
-      });
-    }
-  }
-
   editar(i: any) {
-    this.editandoId = i.id;
-    this.form = i;
+    this.formulario().editar(i);
     window.scrollTo(0, 0);
   }
 
@@ -89,22 +55,6 @@ export class Imoveis implements OnInit {
         this.cdr.detectChanges();
       });
     });
-  }
-
-  limpar() {
-    this.editandoId = null;
-    this.form = {
-      proprietario: '',
-      municipio: '',
-      uf: '',
-      bairro: '',
-      rua: '',
-      numero: '',
-      latitude: null,
-      longitude: null,
-      areaM2: null,
-      ativo: true
-    };
   }
 
   endereco(i: any) {

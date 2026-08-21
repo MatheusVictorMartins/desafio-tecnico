@@ -25,10 +25,27 @@
   width: 40%;
 }
 
+.linha label {
+  margin-right: 5px;
+  font-size: 13px;
+  color: #555;
+}
+
 .linha button {
   padding: 5px 12px;
   margin-right: 5px;
   cursor: pointer;
+}
+
+.linha button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.erro {
+  color: #c00;
+  font-size: 12px;
+  margin-right: 10px;
 }
 
 .msg {

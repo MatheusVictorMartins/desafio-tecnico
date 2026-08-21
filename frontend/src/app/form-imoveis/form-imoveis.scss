@@ -1,0 +1,68 @@
+.caixa {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.caixa h2 {
+  margin-top: 0;
+  font-size: 16px;
+}
+
+.linha {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.linha .largo {
+  flex: 1 1 240px;
+}
+
+.linha .curto {
+  flex: 0 0 60px;
+}
+
+// mesma estrutura do app-form-campo, para os campos numéricos que seguem inline
+.campo-forms {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.campo-forms label {
+  font-size: 13px;
+  color: #555;
+}
+
+.campo-forms input {
+  padding: 5px;
+  border: 1px solid #ccc;
+}
+
+.campo-forms .erro {
+  font-size: 12px;
+  color: #c00;
+}
+
+.acoes {
+  align-items: center;
+}
+
+.acoes .checkbox {
+  font-size: 13px;
+  color: #555;
+  margin-right: 5px;
+}
+
+.acoes button {
+  padding: 5px 12px;
+  cursor: pointer;
+}
+
+.msg {
+  color: green;
+}

@@ -1,0 +1,16 @@
+<div class="campo-forms">
+  <label [for]="id()">{{ label() }}</label>
+
+  <input
+    [id]="id()"
+    [type]="tipo()"
+    [placeholder]="placeholder()"
+    [attr.maxlength]="maxlength()"
+    [attr.aria-required]="requerido() ? 'true' : null"
+    [formControl]="controle()"
+  />
+
+  @if (controle().invalid && controle().touched) {
+    <div class="erro">{{ erro() }}</div>
+  }
+</div>
