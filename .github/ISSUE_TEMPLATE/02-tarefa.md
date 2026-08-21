@@ -7,9 +7,11 @@ labels: ["parte-2"]
 
 ## Referência
 
-Tarefa N do enunciado (`docs/ENUNCIADO.md`).
+Tarefa N do [enunciado](../blob/main/docs/ENUNCIADO.md).
 
 ## Requisito especial
+
+Não há.
 
 <!-- Ex.: tarefa 3: voltar da edição não pode disparar nova requisição -->
 
