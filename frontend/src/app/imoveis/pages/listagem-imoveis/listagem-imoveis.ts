@@ -2,15 +2,15 @@ import { ChangeDetectorRef, Component, OnInit, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 
-import { FormImoveis } from '../form-imoveis/form-imoveis';
+import { FormImoveis } from '../../components/form-imoveis/form-imoveis';
 
 @Component({
-  selector: 'app-imoveis',
+  selector: 'app-listagem-imoveis',
   imports: [CommonModule, FormImoveis],
-  templateUrl: './imoveis.html',
-  styleUrl: './imoveis.scss',
+  templateUrl: './listagem-imoveis.html',
+  styleUrl: './listagem-imoveis.scss',
 })
-export class Imoveis implements OnInit {
+export class ListagemImoveis implements OnInit {
   private formulario = viewChild.required(FormImoveis);
 
   imoveis: any = [];
