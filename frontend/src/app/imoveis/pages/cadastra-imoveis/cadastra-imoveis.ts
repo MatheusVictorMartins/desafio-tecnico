@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, input, OnInit, signal } from '@angular/core';
 import { FormImoveis } from '../../components/form-imoveis/form-imoveis';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -9,18 +9,29 @@ import { Router } from '@angular/router';
   templateUrl: './cadastra-imoveis.html',
   styleUrl: './cadastra-imoveis.scss',
 })
-export class CadastraImoveis {
-  private formulario = viewChild.required(FormImoveis);
+export class CadastraImoveis implements OnInit {
   private router = inject(Router);
-
-  imoveis: any = [];
-  carregando: any = false;
-  mensagem: any = '';
-
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
   ) {}
+  // Pegar :id da rota para injeção de dados nos inputs
+  id = input<string>();
+  imovel = signal<any | null>(null);
+
+  ngOnInit() {
+    const id = this.id();
+    if (!id) {
+      return;
+    }
+    this.http
+      .get('http://localhost:8080/api/imoveis/' + id)
+      .subscribe((res) => this.imovel.set(res));
+  }
+
+  imoveis: any = [];
+  carregando: any = false;
+  mensagem: any = '';
 
   voltar() {
     this.router.navigate(['/imoveis']);

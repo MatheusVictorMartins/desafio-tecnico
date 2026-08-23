@@ -11,4 +11,9 @@ export const imoveisRoutes: Routes = [
     loadComponent: () =>
       import('./pages/cadastra-imoveis/cadastra-imoveis').then((m) => m.CadastraImoveis),
   },
+    {
+    path: 'cadastra_imoveis/:id',
+    loadComponent: () =>
+      import('./pages/cadastra-imoveis/cadastra-imoveis').then((m) => m.CadastraImoveis),
+  },
 ];

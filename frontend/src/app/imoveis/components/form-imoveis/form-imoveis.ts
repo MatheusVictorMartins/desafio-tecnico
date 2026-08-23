@@ -1,4 +1,4 @@
-import { Component, inject, output, signal } from '@angular/core';
+import { Component, inject, output, input, signal, effect } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -13,11 +13,11 @@ import { FormCampo } from '../form-campo/form-campo';
 export class FormImoveis {
   salvo = output<void>();
   cancelado = output<void>();
+  imovel = input<any | null>(null);
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
 
   private readonly api = 'http://localhost:8080/api/imoveis';
-
 
   mensagem = signal('');
   editandoId = signal<number | null>(null);
@@ -34,6 +34,18 @@ export class FormImoveis {
     areaM2: [null as number | null, Validators.min(0)],
     ativo: [true],
   });
+
+  // Pegar dados do imovel por effect
+  // ngOnInit não conseguiria lidar
+  constructor() {
+    effect(() => {
+      const i = this.imovel();
+      if (!i) return;
+
+      this.editandoId.set(i.id);
+      this.form.patchValue(i);
+    });
+  }
 
   salvar() {
     if (this.form.invalid) {

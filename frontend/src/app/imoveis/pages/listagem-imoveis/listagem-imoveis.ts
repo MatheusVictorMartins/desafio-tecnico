@@ -1,9 +1,7 @@
-import { ChangeDetectorRef, Component, OnInit, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
-
-import { FormImoveis } from '../../components/form-imoveis/form-imoveis';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-listagem-imoveis',
@@ -12,12 +10,10 @@ import { FormImoveis } from '../../components/form-imoveis/form-imoveis';
   styleUrl: './listagem-imoveis.scss',
 })
 export class ListagemImoveis implements OnInit {
-  private formulario = viewChild.required(FormImoveis);
-
   imoveis: any = [];
   carregando: any = false;
   mensagem: any = '';
-
+  private router = inject(Router);
   constructor(
     private http: HttpClient,
     private cdr: ChangeDetectorRef,
@@ -39,8 +35,7 @@ export class ListagemImoveis implements OnInit {
   }
 
   editar(i: any) {
-    this.formulario().editar(i);
-    window.scrollTo(0, 0);
+    this.router.navigate(['/imoveis/cadastra_imoveis', i.id]);
   }
 
   excluir(i: any) {
