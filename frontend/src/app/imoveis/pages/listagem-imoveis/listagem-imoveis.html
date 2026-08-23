@@ -1,0 +1,43 @@
+<app-form-imoveis (salvo)="carregar()" />
+
+<div class="caixa">
+  @if (mensagem) {
+    <p class="msg">{{ mensagem }}</p>
+  }
+
+  <p *ngIf="carregando == true">Carregando...</p>
+
+  <p class="resumo">{{ imoveis.length }} imóvel(is) — área total: {{ totalArea() }} m2</p>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Proprietário</th>
+        <th>Endereço</th>
+        <th>Município</th>
+        <th>UF</th>
+        <th>Lat</th>
+        <th>Long</th>
+        <th>Área m2</th>
+        <th>Ativo</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let i of imoveis">
+        <td>{{ i.proprietario }}</td>
+        <td>{{ endereco(i) }}</td>
+        <td>{{ i.municipio }}</td>
+        <td>{{ i.uf }}</td>
+        <td>{{ i.latitude }}</td>
+        <td>{{ i.longitude }}</td>
+        <td>{{ i.areaM2 }}</td>
+        <td>{{ i.ativo == true ? 'Sim' : 'Não' }}</td>
+        <td>
+          <button (click)="editar(i)">Editar</button>
+          <button (click)="excluir(i)">Excluir</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
