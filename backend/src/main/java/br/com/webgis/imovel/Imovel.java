@@ -6,6 +6,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+
+
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -13,6 +17,16 @@ import java.time.OffsetDateTime;
 @Entity
 @Table(name = "imovel")
 public class Imovel {
+	@PrePersist
+	void aoCriar(){
+		this.criadoEm = OffsetDateTime.now();
+		this.atualizadoEm = this.criadoEm;
+	}
+
+	@PreUpdate
+	void aoAtualizar(){
+		this.atualizadoEm = OffsetDateTime.now();
+	}
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
