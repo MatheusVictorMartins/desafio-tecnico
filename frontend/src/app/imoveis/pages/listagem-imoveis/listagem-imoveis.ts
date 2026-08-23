@@ -1,12 +1,13 @@
 import { ChangeDetectorRef, Component, OnInit, viewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router';
 
 import { FormImoveis } from '../../components/form-imoveis/form-imoveis';
 
 @Component({
   selector: 'app-listagem-imoveis',
-  imports: [CommonModule, FormImoveis],
+  imports: [CommonModule, RouterLink],
   templateUrl: './listagem-imoveis.html',
   styleUrl: './listagem-imoveis.scss',
 })

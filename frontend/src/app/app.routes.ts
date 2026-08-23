@@ -8,6 +8,7 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    loadComponent: () => import('./pages/nao-encontrado/nao-encontrado').then((m) => m.NaoEncontrado),
+    loadComponent: () =>
+      import('./pages/nao-encontrado/nao-encontrado').then((m) => m.NaoEncontrado),
   },
 ];

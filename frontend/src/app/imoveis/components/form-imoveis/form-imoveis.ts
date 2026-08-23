@@ -11,12 +11,13 @@ import { FormCampo } from '../form-campo/form-campo';
   styleUrl: './form-imoveis.scss',
 })
 export class FormImoveis {
+  salvo = output<void>();
+  cancelado = output<void>();
   private fb = inject(FormBuilder);
   private http = inject(HttpClient);
 
   private readonly api = 'http://localhost:8080/api/imoveis';
 
-  salvo = output<void>();
 
   mensagem = signal('');
   editandoId = signal<number | null>(null);
@@ -61,5 +62,13 @@ export class FormImoveis {
   limpar() {
     this.editandoId.set(null);
     this.form.reset();
+  }
+
+  cancelar() {
+    if (this.form.dirty && !confirm('Descartar o preenchimento e voltar?')) {
+      return;
+    }
+    this.limpar();
+    this.cancelado.emit();
   }
 }

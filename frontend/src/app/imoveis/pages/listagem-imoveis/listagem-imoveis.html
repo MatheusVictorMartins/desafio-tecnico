@@ -1,5 +1,3 @@
-<app-form-imoveis (salvo)="carregar()" />
-
 <div class="caixa">
   @if (mensagem) {
     <p class="msg">{{ mensagem }}</p>
@@ -7,7 +5,10 @@
 
   <p *ngIf="carregando == true">Carregando...</p>
 
-  <p class="resumo">{{ imoveis.length }} imóvel(is) — área total: {{ totalArea() }} m2</p>
+  <div class="topo-tabela">
+    <p class="resumo">{{ imoveis.length }} imóvel(is) — área total: {{ totalArea() }} m2</p>
+    <a class="link-botao" routerLink="/imoveis/cadastra_imoveis">Novo imóvel</a>
+  </div>
 
   <table>
     <thead>

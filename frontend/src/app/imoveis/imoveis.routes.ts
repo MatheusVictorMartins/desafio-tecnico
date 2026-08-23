@@ -6,4 +6,9 @@ export const imoveisRoutes: Routes = [
     loadComponent: () =>
       import('./pages/listagem-imoveis/listagem-imoveis').then((m) => m.ListagemImoveis),
   },
+  {
+    path: 'cadastra_imoveis',
+    loadComponent: () =>
+      import('./pages/cadastra-imoveis/cadastra-imoveis').then((m) => m.CadastraImoveis),
+  },
 ];

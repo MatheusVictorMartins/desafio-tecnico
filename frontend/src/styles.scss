@@ -5,3 +5,17 @@ body {
   font-size: 14px;
   color: #333;
 }
+
+.link-botao {
+  background-color: #34495e;
+  padding: 5px 20px;
+  text-decoration: none;
+  color: #f4f4f4;
+  border-radius: 5px;
+  font-weight: 600;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.link-botao:hover {
+  background-color: #333;
+}
