@@ -1,6 +1,5 @@
 package br.com.webgis.imovel;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -34,23 +35,24 @@ public class ImovelController {
 	}
 
 	@GetMapping("/{id}")
-	public Object buscar(@PathVariable Long id) {
+	public Imovel buscar(@PathVariable Long id) {
 		return service.buscaImovelPorId(id);
 	}
 
 	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
-	public Object criar(@RequestBody Imovel corpo) {
+	public Imovel criar(@Valid @RequestBody Imovel corpo) {
 		return service.criar(corpo);
 	}
 
 	@PutMapping("/{id}")
-	public Object atualizar(@PathVariable Long id, @RequestBody Imovel corpo) {
+	public Imovel atualizar(@PathVariable Long id,@Valid @RequestBody Imovel corpo) {
 		return service.atualizar(id, corpo);
 	}
 
 	@DeleteMapping("/{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void excluir(@PathVariable Long id) {
-		service.excluir(id);;
+		service.excluir(id);
 	}
 }
