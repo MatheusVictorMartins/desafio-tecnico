@@ -6,5 +6,8 @@ export const routes: Routes = [
     path: 'imoveis',
     loadChildren: () => import('./imoveis/imoveis.routes').then((m) => m.imoveisRoutes),
   },
-  { path: '**', redirectTo: 'imoveis' },
+  {
+    path: '**',
+    loadComponent: () => import('./pages/nao-encontrado/nao-encontrado').then((m) => m.NaoEncontrado),
+  },
 ];
