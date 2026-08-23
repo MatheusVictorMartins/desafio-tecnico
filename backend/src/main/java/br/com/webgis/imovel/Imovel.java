@@ -50,33 +50,37 @@ public class Imovel {
 	public String municipio;
 
 	@NotBlank
-	@Pattern(regexp = "[A-Z]{2}", message = "UF deve ter 2 letras maiúsculas")
+	@Pattern(regexp = "[A-Z]{2}", message = "{imovel.uf.formato}")
 	@Column(length = 2)
 	public String uf;
 
+	@Size(max=100)
 	@Column(length = 100)
 	public String bairro;
 
+	@Size(max=150)
 	@Column(length = 150)
 	public String rua;
 
+	@Size(max=10)
 	@Column(length = 10)
 	public String numero;
 
 	@NotNull
-	@DecimalMin(value = "-90.0")  @DecimalMax(value = "90.0")
+	@DecimalMin(value = "-90.0",message = "{imovel.latitude.faixa}" )  @DecimalMax(value = "90.0", message = "{imovel.latitude.faixa}")
 	@Column(precision = 10, scale = 7)
 	public BigDecimal latitude;
 
 	@NotNull
-	@DecimalMin(value = "-180.0") @DecimalMax(value = "180.0")
+	@DecimalMin(value = "-180.0", message = "{imovel.longitude.faixa}") @DecimalMax(value = "180.0", message = "{imovel.longitude.faixa}")
 	@Column(precision = 10, scale = 7)
 	public BigDecimal longitude;
 
-	@Positive(message = "Área deve ser maior que zero")
+	@Positive(message = "{imovel.area.positiva}")
 	@Column(name = "area_m2", precision = 12, scale = 2)
 	public BigDecimal areaM2;
 
+	@NotNull
 	public boolean ativo;
 
 	@Column(name = "criado_em")
