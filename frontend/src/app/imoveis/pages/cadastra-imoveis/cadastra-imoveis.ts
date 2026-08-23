@@ -11,10 +11,8 @@ import { Router } from '@angular/router';
 })
 export class CadastraImoveis implements OnInit {
   private router = inject(Router);
-  constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  private http = inject(HttpClient);
+
   // Pegar :id da rota para injeção de dados nos inputs
   id = input<string>();
   imovel = signal<any | null>(null);
@@ -28,10 +26,6 @@ export class CadastraImoveis implements OnInit {
       .get('http://localhost:8080/api/imoveis/' + id)
       .subscribe((res) => this.imovel.set(res));
   }
-
-  imoveis: any = [];
-  carregando: any = false;
-  mensagem: any = '';
 
   voltar() {
     this.router.navigate(['/imoveis']);
