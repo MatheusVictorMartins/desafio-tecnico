@@ -11,7 +11,8 @@ import { FormCampo } from '../form-campo/form-campo';
   styleUrl: './form-imoveis.scss',
 })
 export class FormImoveis {
-  salvo = output<void>();
+  // Emite o imóvel salvo para quem hospeda o formulário poder sincronizar o store
+  salvo = output<any>();
   cancelado = output<void>();
   imovel = input<any | null>(null);
   private fb = inject(FormBuilder);
@@ -20,6 +21,7 @@ export class FormImoveis {
   private readonly api = 'http://localhost:8080/api/imoveis';
 
   mensagem = signal('');
+  erro = signal('');
   editandoId = signal<number | null>(null);
 
   form = this.fb.nonNullable.group({
@@ -29,8 +31,12 @@ export class FormImoveis {
     bairro: ['', Validators.maxLength(100)],
     rua: ['', Validators.maxLength(150)],
     numero: ['', Validators.maxLength(10)],
-    latitude: [null as number | null, [Validators.min(-90), Validators.max(90)]],
-    longitude: [null as number | null, [Validators.min(-180), Validators.max(180)]],
+    // required porque a entidade do backend marca latitude/longitude com @NotNull
+    latitude: [null as number | null, [Validators.required, Validators.min(-90), Validators.max(90)]],
+    longitude: [
+      null as number | null,
+      [Validators.required, Validators.min(-180), Validators.max(180)],
+    ],
     areaM2: [null as number | null, Validators.min(0)],
     ativo: [true],
   });
@@ -56,13 +62,23 @@ export class FormImoveis {
     const id = this.editandoId();
     const dados = this.form.getRawValue();
 
+    // O backend valida UF com [A-Z]{2}; aqui o usuário pode digitar minúsculo
+    dados.uf = dados.uf.toUpperCase();
+
     const requisicao =
       id != null ? this.http.put(this.api + '/' + id, dados) : this.http.post(this.api, dados);
 
-    requisicao.subscribe(() => {
-      this.mensagem.set(id != null ? 'Imóvel atualizado!' : 'Imóvel cadastrado!');
-      this.limpar();
-      this.salvo.emit();
+    this.erro.set('');
+
+    requisicao.subscribe({
+      next: (res) => {
+        this.mensagem.set(id != null ? 'Imóvel atualizado!' : 'Imóvel cadastrado!');
+        this.limpar();
+        this.salvo.emit(res);
+      },
+      error: () => {
+        this.erro.set('Não foi possível salvar. Confira os campos e tente novamente.');
+      },
     });
   }
 
