@@ -19,3 +19,9 @@ body {
 .link-botao:hover {
   background-color: #333;
 }
+
+.forms-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}

@@ -81,7 +81,7 @@
             formControlName="latitude"
           />
           @if (form.controls.latitude.invalid && form.controls.latitude.touched) {
-            <div class="erro">Latitude entre -90 e 90</div>
+            <div class="erro">Informe a latitude, entre -90 e 90</div>
           }
         </div>
 
@@ -95,7 +95,7 @@
             formControlName="longitude"
           />
           @if (form.controls.longitude.invalid && form.controls.longitude.touched) {
-            <div class="erro">Longitude entre -180 e 180</div>
+            <div class="erro">Informe a longitude, entre -180 e 180</div>
           }
         </div>
 
@@ -123,6 +123,10 @@
 
     @if (mensagem()) {
       <p class="msg">{{ mensagem() }}</p>
+    }
+
+    @if (erro()) {
+      <p class="erro-geral">{{ erro() }}</p>
     }
   </div>
 </section>
