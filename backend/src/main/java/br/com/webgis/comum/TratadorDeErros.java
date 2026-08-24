@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import br.com.webgis.imovel.ImovelInexistenteException;
+import br.com.webgis.proprietario.ProprietarioInexistenteException;
 
 // Essa classe servirá para englobar todos os erros em um só lugar
 
@@ -40,4 +41,11 @@ public class TratadorDeErros extends ResponseEntityExceptionHandler {
         p.setTitle("Erro interno do servidor");
         return p;
     }
+    @ExceptionHandler(ProprietarioInexistenteException.class)
+    public ProblemDetail proprietarioNaoEncontrado(ProprietarioInexistenteException ex){
+        var p = ProblemDetail.forStatusAndDetail(HttpStatus.NOT_FOUND, ex.getMessage());
+        p.setTitle("Recurso não encontrado!");
+        return p;
+    }
+
 }
