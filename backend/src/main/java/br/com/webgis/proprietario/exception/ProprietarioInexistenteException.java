@@ -1,4 +1,4 @@
-package br.com.webgis.proprietario;
+package br.com.webgis.proprietario.exception;
 
 public class ProprietarioInexistenteException extends RuntimeException {
 

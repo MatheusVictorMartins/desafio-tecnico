@@ -1,26 +1,26 @@
-package br.com.webgis.imovel;
+package br.com.webgis.imovel.service;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import br.com.webgis.proprietario.Proprietario;
-import br.com.webgis.proprietario.ProprietarioInexistenteException;
-import br.com.webgis.proprietario.ProprietarioRepository;
+import br.com.webgis.proprietario.exception.ProprietarioInexistenteException;
+import br.com.webgis.proprietario.model.Proprietario;
+import br.com.webgis.proprietario.repository.ProprietarioRepository;
+import br.com.webgis.imovel.model.Imovel;
+import br.com.webgis.imovel.repository.ImovelRepository;
+import br.com.webgis.imovel.exception.ImovelInexistenteException;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-
+// Refatoração: Substitui o construtor base pelo bean do lombok
+@RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
 
 public class ImovelService{
 	private final ImovelRepository repository;
 	private final ProprietarioRepository proprietarioRepository;
-
-	public ImovelService(ImovelRepository repository, ProprietarioRepository propRepository){
-		this.repository = repository;
-		this.proprietarioRepository = propRepository;
-	}
 
 	public List<Imovel> listar(){
 		return repository.findAllByOrderByProprietarioNomeAsc();

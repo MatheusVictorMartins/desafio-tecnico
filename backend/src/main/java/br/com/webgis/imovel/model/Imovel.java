@@ -1,4 +1,4 @@
-package br.com.webgis.imovel;
+package br.com.webgis.imovel.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -23,7 +23,7 @@ import jakarta.persistence.PreUpdate;
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
-import br.com.webgis.proprietario.Proprietario;
+import br.com.webgis.proprietario.model.Proprietario;
 
 @Entity
 @Table(name = "imovel")

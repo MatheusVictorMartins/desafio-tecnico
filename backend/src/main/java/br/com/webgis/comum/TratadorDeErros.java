@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import br.com.webgis.imovel.ImovelInexistenteException;
-import br.com.webgis.proprietario.ProprietarioInexistenteException;
+import br.com.webgis.imovel.exception.ImovelInexistenteException;
+import br.com.webgis.proprietario.exception.ProprietarioInexistenteException;
 
 // Essa classe servirá para englobar todos os erros em um só lugar
 

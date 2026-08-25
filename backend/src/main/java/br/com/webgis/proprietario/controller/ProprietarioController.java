@@ -1,4 +1,4 @@
-package br.com.webgis.proprietario;
+package br.com.webgis.proprietario.controller;
 
 import java.util.List;
 
@@ -10,18 +10,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.webgis.imovel.Imovel;
+import br.com.webgis.imovel.model.Imovel;
+import br.com.webgis.proprietario.model.Proprietario;
+import br.com.webgis.proprietario.service.ProprietarioService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/proprietarios")
 @CrossOrigin(origins = "*")
 public class ProprietarioController {
-    private ProprietarioService service;
 
-    public ProprietarioController(ProprietarioService service){
-        this.service = service;
-    }
+    private final ProprietarioService service;
 
     @GetMapping
     public List<Proprietario> listar(){
