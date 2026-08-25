@@ -13,6 +13,24 @@
     </p>
     <a class="link-botao" routerLink="/imoveis/cadastra_imoveis">Novo imóvel</a>
   </div>
+  <div class="filtros">
+    <app-form-campo
+      id="filtro-municipio"
+      label="municipio"
+      placeholder="Ex.: São Paulo"
+      [requerido]="false"
+      [controle]="filtroMunicipio"
+    ></app-form-campo>
+    <app-form-campo
+      id="filtro-proprietario"
+      label="Proprietário"
+      placeholder="Ex.: Carlos da Silva de Andrade"
+      [requerido]="false"
+      [controle]="filtroProprietario"
+    ></app-form-campo>
+    <button (click)="pesquisar()">Pesquisar</button>
+    <button (click)="limpar()">Limpar</button>
+  </div>
 
   <table>
     <thead>

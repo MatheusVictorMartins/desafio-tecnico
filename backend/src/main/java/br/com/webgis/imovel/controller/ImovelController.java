@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,9 +30,9 @@ public class ImovelController {
 	private final ImovelService service;
 
 	@GetMapping
-	public Page<Imovel> listar(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
+	public Page<Imovel> listar(@RequestParam(required = false) String municipio, @RequestParam(required = false) String proprietario, @PageableDefault(size = 10, sort = "id") Pageable pageable) {
 		System.out.println("listando imoveis");
-		return service.listar(pageable);
+		return service.listar(municipio,proprietario,pageable);
 	}
 
 	@GetMapping("/{id}")
