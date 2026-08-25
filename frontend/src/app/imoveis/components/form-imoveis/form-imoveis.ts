@@ -48,8 +48,10 @@ export class FormImoveis {
   // Pegar dados do imovel por effect
   // ngOnInit não conseguiria lidar
   constructor() {
+    // Endpoint sem paginação: o select precisa de todos os proprietários, senão
+    // não há como cadastrar um imóvel cujo dono ficou de fora da página.
     this.http
-      .get<any[]>('http://localhost:8080/api/proprietarios')
+      .get<any[]>('http://localhost:8080/api/proprietarios/todos')
       .subscribe((res) => this.proprietarios.set(res));
     effect(() => {
       const i = this.imovel();
