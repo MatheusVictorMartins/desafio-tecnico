@@ -1,5 +1,7 @@
 package br.com.webgis.imovel.controller;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -33,6 +35,11 @@ public class ImovelController {
 	public Page<Imovel> listar(@RequestParam(required = false) String municipio, @RequestParam(required = false) String proprietario, @PageableDefault(size = 10, sort = "id") Pageable pageable) {
 		System.out.println("listando imoveis");
 		return service.listar(municipio,proprietario,pageable);
+	}
+
+	@GetMapping("/mapa")
+	public List<Imovel> listarParaMapa(){
+		return service.listarParaMapa();
 	}
 
 	@GetMapping("/{id}")
