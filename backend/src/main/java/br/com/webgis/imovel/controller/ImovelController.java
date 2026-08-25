@@ -1,5 +1,8 @@
 package br.com.webgis.imovel.controller;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,8 +20,6 @@ import br.com.webgis.imovel.service.ImovelService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/imoveis")
@@ -28,9 +29,9 @@ public class ImovelController {
 	private final ImovelService service;
 
 	@GetMapping
-	public List<Imovel> listar() {
+	public Page<Imovel> listar(@PageableDefault(size = 10) Pageable pageable) {
 		System.out.println("listando imoveis");
-		return service.listar();
+		return service.listar(pageable);
 	}
 
 	@GetMapping("/{id}")

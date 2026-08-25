@@ -12,6 +12,10 @@ import { ImovelStore } from '../../services/imovel-store';
 export class ListagemImoveis implements OnInit {
   private router = inject(Router);
   private store = inject(ImovelStore);
+  // Pegar dados da página do store
+  paginaAtual = this.store.paginaAtual;
+  totalPaginas = this.store.totalPaginas;
+  totalImoveis = this.store.totalImoveis;
 
   // Apelidos locais para os signals do store, só para encurtar o template
   imoveis = this.store.imoveis;
@@ -21,6 +25,11 @@ export class ListagemImoveis implements OnInit {
 
   ngOnInit() {
     this.store.carregarSeNecessario();
+  }
+
+  // Método para trocar de página
+  trocarPagina(pagina: number) {
+    this.store.recarregar(pagina);
   }
 
   totalArea() {
