@@ -3,17 +3,17 @@
     <h2>{{ editandoId() != null ? 'Editar imóvel' : 'Novo imóvel' }}</h2>
 
     <form [formGroup]="form" (ngSubmit)="salvar()" novalidate>
-      <div class="linha">
-        <app-form-campo
-          class="largo"
-          id="proprietario"
-          label="Proprietário"
-          placeholder="Nome completo do proprietário"
-          erro="Informe o proprietário"
-          [maxlength]="120"
-          [requerido]="true"
-          [controle]="form.controls.proprietario"
-        />
+      <div class="campo-forms largo">
+        <label for="proprietario">Proprietário</label>
+        <select id="proprietario" formControlName="proprietarioId">
+          <option [ngValue]="null">Selecione...</option>
+          @for (p of proprietarios(); track p.id) {
+            <option [ngValue]="p.id">{{ p.nome }}</option>
+          }
+        </select>
+        @if (form.controls.proprietarioId.invalid && form.controls.proprietarioId.touched) {
+          <div class="erro">Informe o proprietário</div>
+        }
       </div>
 
       <div class="linha">

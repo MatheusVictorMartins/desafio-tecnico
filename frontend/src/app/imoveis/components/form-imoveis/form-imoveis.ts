@@ -23,16 +23,20 @@ export class FormImoveis {
   mensagem = signal('');
   erro = signal('');
   editandoId = signal<number | null>(null);
+  proprietarios = signal<any[]>([]);
 
   form = this.fb.nonNullable.group({
-    proprietario: ['', [Validators.required, Validators.maxLength(120)]],
+    proprietarioId: [null as number | null, Validators.required],
     municipio: ['', [Validators.required, Validators.maxLength(120)]],
     uf: ['', [Validators.required, Validators.pattern(/^[A-Za-z]{2}$/)]],
     bairro: ['', Validators.maxLength(100)],
     rua: ['', Validators.maxLength(150)],
     numero: ['', Validators.maxLength(10)],
     // required porque a entidade do backend marca latitude/longitude com @NotNull
-    latitude: [null as number | null, [Validators.required, Validators.min(-90), Validators.max(90)]],
+    latitude: [
+      null as number | null,
+      [Validators.required, Validators.min(-90), Validators.max(90)],
+    ],
     longitude: [
       null as number | null,
       [Validators.required, Validators.min(-180), Validators.max(180)],
@@ -44,12 +48,15 @@ export class FormImoveis {
   // Pegar dados do imovel por effect
   // ngOnInit não conseguiria lidar
   constructor() {
+    this.http
+      .get<any[]>('http://localhost:8080/api/proprietarios')
+      .subscribe((res) => this.proprietarios.set(res));
     effect(() => {
       const i = this.imovel();
       if (!i) return;
 
       this.editandoId.set(i.id);
-      this.form.patchValue(i);
+      this.form.patchValue({ ...i, proprietarioId: i.proprietario?.id ?? null });
     });
   }
 
@@ -65,8 +72,13 @@ export class FormImoveis {
     // O backend valida UF com [A-Z]{2}; aqui o usuário pode digitar minúsculo
     dados.uf = dados.uf.toUpperCase();
 
+    const corpo = {
+      ...dados,
+      proprietario: { id: dados.proprietarioId },
+    };
+
     const requisicao =
-      id != null ? this.http.put(this.api + '/' + id, dados) : this.http.post(this.api, dados);
+      id != null ? this.http.put(this.api + '/' + id, corpo) : this.http.post(this.api, corpo);
 
     this.erro.set('');
 

@@ -1,0 +1,46 @@
+<section class="forms-section">
+  <a class="link-voltar" routerLink="/proprietarios">Voltar para a lista de proprietários</a>
+
+  <div class="caixa">
+    <h2>Imóveis de {{ proprietario()?.nome }}</h2>
+
+    @if (carregando()) {
+      <p>Carregando...</p>
+    }
+
+    <div class="topo-tabela">
+      <p class="resumo">{{ imoveis().length }} imóvel(is)</p>
+    </div>
+
+    @if (imoveis().length == 0 && carregando() == false) {
+      <p class="resumo">Este proprietário ainda não tem imóveis cadastrados.</p>
+    } @else {
+      <table>
+        <thead>
+          <tr>
+            <th>Endereço</th>
+            <th>Município</th>
+            <th>UF</th>
+            <th>Lat</th>
+            <th>Long</th>
+            <th>Área m2</th>
+            <th>Ativo</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (i of imoveis(); track i.id) {
+            <tr>
+              <td>{{ endereco(i) }}</td>
+              <td>{{ i.municipio }}</td>
+              <td>{{ i.uf }}</td>
+              <td>{{ i.latitude }}</td>
+              <td>{{ i.longitude }}</td>
+              <td>{{ i.areaM2 }}</td>
+              <td>{{ i.ativo == true ? 'Sim' : 'Não' }}</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </div>
+</section>

@@ -1,0 +1,29 @@
+<div class="caixa">
+  @if (carregando()) {
+    <p>Carregando...</p>
+  }
+
+  <div class="topo-tabela">
+    <p class="resumo">{{ proprietarios().length }} proprietário(s)</p>
+    <a class="link-botao" routerLink="/imoveis">Ver todos os imóveis</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Proprietário</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of proprietarios(); track p.id) {
+        <tr>
+          <td>{{ p.nome }}</td>
+          <td>
+            <button (click)="verImoveis(p)">Ver imóveis</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
