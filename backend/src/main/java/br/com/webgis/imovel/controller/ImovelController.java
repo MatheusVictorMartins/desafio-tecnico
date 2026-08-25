@@ -1,4 +1,4 @@
-package br.com.webgis.imovel;
+package br.com.webgis.imovel.controller;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -12,21 +12,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.webgis.imovel.model.Imovel;
+import br.com.webgis.imovel.service.ImovelService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 
-
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/imoveis")
 @CrossOrigin(origins = "*")
 public class ImovelController {
 
 	private final ImovelService service;
-
-	public ImovelController(ImovelService service){
-		this.service = service;
-	}
 
 	@GetMapping
 	public List<Imovel> listar() {

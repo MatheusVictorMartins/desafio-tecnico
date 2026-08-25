@@ -1,5 +1,6 @@
-package br.com.webgis.imovel;
+package br.com.webgis.imovel.repository;
 
+import br.com.webgis.imovel.model.Imovel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 

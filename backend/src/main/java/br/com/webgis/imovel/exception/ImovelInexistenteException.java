@@ -1,4 +1,4 @@
-package br.com.webgis.imovel;
+package br.com.webgis.imovel.exception;
 
 public class ImovelInexistenteException extends RuntimeException {
     public ImovelInexistenteException(Long id){

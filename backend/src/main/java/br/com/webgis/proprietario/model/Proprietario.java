@@ -1,4 +1,4 @@
-package br.com.webgis.proprietario;
+package br.com.webgis.proprietario.model;
 
 import java.time.OffsetDateTime;
 
