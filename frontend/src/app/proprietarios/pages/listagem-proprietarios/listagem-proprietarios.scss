@@ -15,6 +15,15 @@
   color: #555;
 }
 
+.msg {
+  color: green;
+}
+
+.erro {
+  color: #c00;
+  font-size: 12px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -30,6 +39,15 @@ table td {
 
 table th {
   background: #eee;
+}
+
+// mesma aparência dos inputs do formulário de imóveis
+table input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .topo-tabela {

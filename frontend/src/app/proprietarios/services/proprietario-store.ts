@@ -26,6 +26,16 @@ export class ProprietarioStore {
     });
   }
 
+  renomear(id: number, nome: string) {
+    return this.http.put<any>(`${this.api}/${id}`, { nome });
+  }
+
+  atualizarLocal(proprietario: any) {
+    this.proprietarios.update((lista) =>
+      lista.map((p) => (p.id === proprietario.id ? proprietario : p)),
+    );
+  }
+
   // Busca em memória, sem ir ao servidor
   porId(id: number) {
     return this.proprietarios().find((p) => p.id === id) ?? null;
@@ -34,4 +44,6 @@ export class ProprietarioStore {
   imoveisDo(id: number) {
     return this.http.get<any[]>(`${this.api}/${id}/imoveis`);
   }
+
+
 }
