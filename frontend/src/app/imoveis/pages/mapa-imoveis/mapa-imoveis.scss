@@ -1,0 +1,38 @@
+.caixa {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 15px;
+  margin-bottom: 20px;
+}
+
+.caixa h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.resumo {
+  font-size: 13px;
+  color: #555;
+}
+
+/* Título e explicação na mesma linha, como o .topo-tabela da listagem */
+.topo-mapa {
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+  margin-bottom: 10px;
+}
+
+.topo-mapa .resumo {
+  margin: 0;
+}
+
+/* A mesma borda da .caixa e da tabela, para o mapa não ficar solto na página */
+.mapa {
+  height: 500px;
+  border: 1px solid #ccc;
+}
+
+.nota {
+  margin: 10px 0 0;
+}

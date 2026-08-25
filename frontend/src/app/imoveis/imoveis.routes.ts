@@ -13,7 +13,10 @@ export const imoveisRoutes: Routes = [
   },
   {
     path: ':id/editar',
-    loadComponent: () =>
-      import('./pages/edita-imoveis/edita-imoveis').then((m) => m.EditaImoveis),
+    loadComponent: () => import('./pages/edita-imoveis/edita-imoveis').then((m) => m.EditaImoveis),
+  },
+  {
+    path: 'mapa',
+    loadComponent: () => import('./pages/mapa-imoveis/mapa-imoveis').then((m) => m.MapaImoveis),
   },
 ];
