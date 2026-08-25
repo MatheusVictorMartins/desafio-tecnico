@@ -47,7 +47,7 @@ export class ProprietarioStore {
     return this.proprietarios().find((p) => p.id === id) ?? null;
   }
 
-  imoveisDo(id: number) {
-    return this.http.get<any[]>(`${this.api}/${id}/imoveis`);
+  imoveisDo(id: number, pagina = 0) {
+    return this.http.get<any>(`${this.api}/${id}/imoveis?page=${[pagina]}&size=10`);
   }
 }

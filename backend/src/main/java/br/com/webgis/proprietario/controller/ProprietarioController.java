@@ -1,7 +1,5 @@
 package br.com.webgis.proprietario.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
@@ -33,8 +31,8 @@ public class ProprietarioController {
     }
 
     @GetMapping("/{id}/imoveis")
-    public List<Imovel> listarImoveil(@PathVariable Long id){
-        return service.listarImovel(id);
+    public Page<Imovel> listarImoveis(@PathVariable Long id, @PageableDefault(size = 10, sort = "id") Pageable pageable){
+        return service.listarImovel(id, pageable);
     }
 
     @PutMapping("/{id}")
