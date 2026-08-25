@@ -38,7 +38,7 @@
 
   <div class="topo-tabela">
     <p class="resumo" role="status">
-      {{ imoveis().length }} imóvel(is) — área nesta página: {{ totalArea() }} m2
+      {{ imoveis().length }} imóvel(is) — área total nesta página: {{ totalArea() }} m2
     </p>
     <a class="link-botao" routerLink="/imoveis/cadastra_imoveis">Novo imóvel</a>
   </div>
@@ -47,7 +47,9 @@
     <p class="resumo">Nenhum imóvel encontrado para esse filtro.</p>
   } @else {
     <table>
-      <caption class="sr-only">Imóveis cadastrados</caption>
+      <caption class="sr-only">
+        Imóveis cadastrados
+      </caption>
       <thead>
         <tr>
           <th scope="col">Proprietário</th>
