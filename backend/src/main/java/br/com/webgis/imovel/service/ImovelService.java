@@ -22,8 +22,15 @@ public class ImovelService{
 	private final ImovelRepository repository;
 	private final ProprietarioRepository proprietarioRepository;
 
-	public Page<Imovel> listar(Pageable pageable){
-		return repository.findAll(pageable);
+	public Page<Imovel> listar(String municipio, String proprietario,Pageable pageable){
+		// Garantindo nulidade dos filtros(caso o usuário não coloque nenhum filtro)
+		if(municipio == null || municipio.isBlank()){
+			municipio = "";
+		}
+		if(proprietario == null || proprietario.isBlank()){
+			proprietario = "";
+		}
+		return repository.buscar(municipio, proprietario, pageable);
 	}
 
 	public Imovel buscaImovelPorId(Long id){

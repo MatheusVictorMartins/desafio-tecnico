@@ -13,6 +13,10 @@ export class ImovelStore {
   carregando = signal(false);
   private carregado = false;
 
+  // Variáveis dos filtros
+  filtroMunicipio = signal('');
+  filtroProprietario = signal('');
+
   // Só busca na primeira vez, evitando requisição
   // ao voltar da edição para a listagem.
   carregarSeNecessario() {
@@ -22,14 +26,20 @@ export class ImovelStore {
 
   recarregar(pagina = 0) {
     this.carregando.set(true);
-    this.http.get<any>(`${this.api}?page=${[pagina]}&size=10`).subscribe((res) => {
-      this.imoveis.set(res.content);
-      this.paginaAtual.set(res.number);
-      this.totalPaginas.set(res.totalPages);
-      this.totalImoveis.set(res.totalElements);
-      this.carregado = true;
-      this.carregando.set(false);
-    });
+    this.http
+      .get<any>(
+        `${this.api}?page=${[pagina]}&size=10` +
+          `&municipio=${encodeURIComponent(this.filtroMunicipio())}` +
+          `&proprietario=${encodeURIComponent(this.filtroProprietario())}`,
+      )
+      .subscribe((res) => {
+        this.imoveis.set(res.content);
+        this.paginaAtual.set(res.number);
+        this.totalPaginas.set(res.totalPages);
+        this.totalImoveis.set(res.totalElements);
+        this.carregado = true;
+        this.carregando.set(false);
+      });
   }
 
   // Busca em memória, sem ir ao servidor

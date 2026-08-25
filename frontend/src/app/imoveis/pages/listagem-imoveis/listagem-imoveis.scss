@@ -80,3 +80,83 @@ table th {
   gap: 1rem;
 }
 
+/* Filtros */
+
+.filtros {
+  margin-bottom: 15px;
+}
+
+.filtros fieldset {
+  margin: 0;
+  padding: 12px 15px 15px;
+  border: 1px solid #ccc;
+  background: #fafafa;
+}
+
+.filtros legend {
+  padding: 0 5px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+}
+
+/* Os campos crescem para dividir a linha; os botões ficam com a largura deles.
+   O flex-end alinha tudo pela base, já que o app-form-campo tem label em cima. */
+.filtros-campos {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.filtros-campos app-form-campo {
+  flex: 1 1 220px;
+  min-width: 160px;
+}
+
+.filtros-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.filtros-acoes button {
+  padding: 5px 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: #fff;
+  color: #333;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.filtros-acoes button:hover {
+  background: #eee;
+}
+
+/* O "Pesquisar" é a ação principal, então herda o acento do .link-botao */
+.filtros-acoes button[type='submit'] {
+  border-color: #34495e;
+  background: #34495e;
+  color: #f4f4f4;
+}
+
+.filtros-acoes button[type='submit']:hover {
+  border-color: #333;
+  background: #333;
+}
+
+/* Visível só para leitor de tela */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
