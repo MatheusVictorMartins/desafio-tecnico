@@ -7,42 +7,100 @@
     <p>Carregando...</p>
   }
 
+  <form class="filtros" role="search" (submit)="$event.preventDefault(); pesquisar()">
+    <fieldset>
+      <legend>Filtrar imóveis</legend>
+
+      <div class="filtros-campos">
+        <app-form-campo
+          id="filtro-municipio"
+          label="Município"
+          placeholder="Ex.: São Paulo"
+          [requerido]="false"
+          [controle]="filtroMunicipio"
+        ></app-form-campo>
+
+        <app-form-campo
+          id="filtro-proprietario"
+          label="Proprietário"
+          placeholder="Ex.: Carlos da Silva de Andrade"
+          [requerido]="false"
+          [controle]="filtroProprietario"
+        ></app-form-campo>
+
+        <div class="filtros-acoes">
+          <button type="submit">Pesquisar</button>
+          <button type="button" (click)="limpar()">Limpar</button>
+        </div>
+      </div>
+    </fieldset>
+  </form>
+
   <div class="topo-tabela">
-    <p class="resumo">{{ imoveis().length }} imóvel(is) — área total: {{ totalArea() }} m2</p>
+    <p class="resumo" role="status">
+      {{ imoveis().length }} imóvel(is) — área total nesta página: {{ totalArea() }} m2
+    </p>
     <a class="link-botao" routerLink="/imoveis/cadastra_imoveis">Novo imóvel</a>
   </div>
 
-  <table>
-    <thead>
-      <tr>
-        <th>Proprietário</th>
-        <th>Endereço</th>
-        <th>Município</th>
-        <th>UF</th>
-        <th>Lat</th>
-        <th>Long</th>
-        <th>Área m2</th>
-        <th>Ativo</th>
-        <th></th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (i of imoveis(); track i.id) {
+  @if (imoveis().length == 0 && carregando() == false) {
+    <p class="resumo">Nenhum imóvel encontrado para esse filtro.</p>
+  } @else {
+    <table>
+      <caption class="sr-only">
+        Imóveis cadastrados
+      </caption>
+      <thead>
         <tr>
-          <td>{{ i.proprietario.nome }}</td>
-          <td>{{ endereco(i) }}</td>
-          <td>{{ i.municipio }}</td>
-          <td>{{ i.uf }}</td>
-          <td>{{ i.latitude }}</td>
-          <td>{{ i.longitude }}</td>
-          <td>{{ i.areaM2 }}</td>
-          <td>{{ i.ativo == true ? 'Sim' : 'Não' }}</td>
-          <td>
-            <button (click)="editar(i)">Editar</button>
-            <button (click)="excluir(i)">Excluir</button>
-          </td>
+          <th scope="col">Proprietário</th>
+          <th scope="col">Endereço</th>
+          <th scope="col">Município</th>
+          <th scope="col">UF</th>
+          <th scope="col">Lat</th>
+          <th scope="col">Long</th>
+          <th scope="col">Área m2</th>
+          <th scope="col">Ativo</th>
+          <th scope="col"><span class="sr-only">Ações</span></th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (i of imoveis(); track i.id) {
+          <tr>
+            <td>{{ i.proprietario.nome }}</td>
+            <td>{{ endereco(i) }}</td>
+            <td>{{ i.municipio }}</td>
+            <td>{{ i.uf }}</td>
+            <td>{{ i.latitude }}</td>
+            <td>{{ i.longitude }}</td>
+            <td>{{ i.areaM2 }}</td>
+            <td>{{ i.ativo == true ? 'Sim' : 'Não' }}</td>
+            <td>
+              <button type="button" (click)="editar(i)">Editar</button>
+              <button type="button" (click)="excluir(i)">Excluir</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <nav class="paginacao" aria-label="Paginação dos imóveis">
+      <button
+        type="button"
+        (click)="trocarPagina(paginaAtual() - 1)"
+        [disabled]="paginaAtual() === 0"
+      >
+        Anterior
+      </button>
+
+      <span>Página {{ paginaAtual() + 1 }} de {{ totalPaginas() }}</span>
+
+      <button
+        type="button"
+        (click)="trocarPagina(paginaAtual() + 1)"
+        [disabled]="paginaAtual() >= totalPaginas() - 1"
+      >
+        Próxima
+      </button>
+    </nav>
+  }
 </div>

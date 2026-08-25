@@ -7,23 +7,39 @@ export class ImovelStore {
   private readonly api = 'http://localhost:8080/api/imoveis';
 
   imoveis = signal<any[]>([]);
+  paginaAtual = signal(0);
+  totalPaginas = signal(0);
+  totalImoveis = signal(0);
   carregando = signal(false);
   private carregado = false;
 
-  // Só busca na primeira vez. É isso que evita a requisição
+  // Variáveis dos filtros
+  filtroMunicipio = signal('');
+  filtroProprietario = signal('');
+
+  // Só busca na primeira vez, evitando requisição
   // ao voltar da edição para a listagem.
   carregarSeNecessario() {
     if (this.carregado) return;
     this.recarregar();
   }
 
-  recarregar() {
+  recarregar(pagina = 0) {
     this.carregando.set(true);
-    this.http.get<any[]>(this.api).subscribe((res) => {
-      this.imoveis.set(res);
-      this.carregado = true;
-      this.carregando.set(false);
-    });
+    this.http
+      .get<any>(
+        `${this.api}?page=${[pagina]}&size=10` +
+          `&municipio=${encodeURIComponent(this.filtroMunicipio())}` +
+          `&proprietario=${encodeURIComponent(this.filtroProprietario())}`,
+      )
+      .subscribe((res) => {
+        this.imoveis.set(res.content);
+        this.paginaAtual.set(res.number);
+        this.totalPaginas.set(res.totalPages);
+        this.totalImoveis.set(res.totalElements);
+        this.carregado = true;
+        this.carregando.set(false);
+      });
   }
 
   // Busca em memória, sem ir ao servidor

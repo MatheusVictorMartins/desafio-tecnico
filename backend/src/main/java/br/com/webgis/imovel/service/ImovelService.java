@@ -1,5 +1,7 @@
 package br.com.webgis.imovel.service;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,8 +13,6 @@ import br.com.webgis.imovel.repository.ImovelRepository;
 import br.com.webgis.imovel.exception.ImovelInexistenteException;
 import lombok.RequiredArgsConstructor;
 
-import java.util.List;
-
 // Refatoração: Substitui o construtor base pelo bean do lombok
 @RequiredArgsConstructor
 @Service
@@ -22,8 +22,15 @@ public class ImovelService{
 	private final ImovelRepository repository;
 	private final ProprietarioRepository proprietarioRepository;
 
-	public List<Imovel> listar(){
-		return repository.findAllByOrderByProprietarioNomeAsc();
+	public Page<Imovel> listar(String municipio, String proprietario,Pageable pageable){
+		// Garantindo nulidade dos filtros(caso o usuário não coloque nenhum filtro)
+		if(municipio == null || municipio.isBlank()){
+			municipio = "";
+		}
+		if(proprietario == null || proprietario.isBlank()){
+			proprietario = "";
+		}
+		return repository.buscar(municipio, proprietario, pageable);
 	}
 
 	public Imovel buscaImovelPorId(Long id){

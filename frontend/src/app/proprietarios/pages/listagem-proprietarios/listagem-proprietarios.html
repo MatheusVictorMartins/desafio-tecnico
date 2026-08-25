@@ -50,4 +50,18 @@
       }
     </tbody>
   </table>
+  <div class="paginacao">
+    <button (click)="trocarPagina(paginaAtual() - 1)" [disabled]="paginaAtual() === 0">
+      Anterior
+    </button>
+
+    <span>Página {{ paginaAtual() + 1 }} de {{ totalPaginas() }}</span>
+
+    <button
+      (click)="trocarPagina(paginaAtual() + 1)"
+      [disabled]="paginaAtual() >= totalPaginas() - 1"
+    >
+      Próxima
+    </button>
+  </div>
 </div>

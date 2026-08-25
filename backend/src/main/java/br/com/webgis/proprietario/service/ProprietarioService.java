@@ -1,7 +1,7 @@
 package br.com.webgis.proprietario.service;
 
-import java.util.List;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,15 +19,15 @@ public class ProprietarioService {
     private final ProprietarioRepository repository;
     private final ImovelRepository imovelRepository;
 
-    public List<Proprietario> listar(){
-        return repository.findAllByOrderByNomeAsc();
+    public Page<Proprietario> listar(Pageable pageable){
+        return repository.findAll(pageable);
     }
 
-    public List<Imovel> listarImovel(Long id){
+    public Page<Imovel> listarImovel(Long id, Pageable pageable){
         if(!repository.existsById(id)){
             throw new ProprietarioInexistenteException(id);
         }
-        return imovelRepository.findByProprietarioId(id);
+        return imovelRepository.findByProprietarioId(id, pageable);
     }
 
     @Transactional

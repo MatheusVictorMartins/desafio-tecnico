@@ -2,16 +2,38 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 
 import { ImovelStore } from '../../services/imovel-store';
+import { FormControl } from '@angular/forms';
+import { FormCampo } from '../../components/form-campo/form-campo';
 
 @Component({
   selector: 'app-listagem-imoveis',
-  imports: [RouterLink],
+  imports: [RouterLink, FormCampo],
   templateUrl: './listagem-imoveis.html',
   styleUrl: './listagem-imoveis.scss',
 })
 export class ListagemImoveis implements OnInit {
   private router = inject(Router);
   private store = inject(ImovelStore);
+  // Pegar dados da página do store
+  paginaAtual = this.store.paginaAtual;
+  totalPaginas = this.store.totalPaginas;
+  totalImoveis = this.store.totalImoveis;
+  // Campos do form para os filtros
+  filtroMunicipio = new FormControl('', { nonNullable: true });
+  filtroProprietario = new FormControl('', { nonNullable: true });
+
+  // Funções dos filtros para pesquisar e limpar estes
+  pesquisar() {
+    this.store.filtroMunicipio.set(this.filtroMunicipio.value.trim());
+    this.store.filtroProprietario.set(this.filtroProprietario.value.trim());
+    this.store.recarregar(0);
+  }
+
+  limpar() {
+    this.filtroMunicipio.setValue('');
+    this.filtroProprietario.setValue('');
+    this.pesquisar();
+  }
 
   // Apelidos locais para os signals do store, só para encurtar o template
   imoveis = this.store.imoveis;
@@ -21,6 +43,11 @@ export class ListagemImoveis implements OnInit {
 
   ngOnInit() {
     this.store.carregarSeNecessario();
+  }
+
+  // Método para trocar de página
+  trocarPagina(pagina: number) {
+    this.store.recarregar(pagina);
   }
 
   totalArea() {

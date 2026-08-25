@@ -19,6 +19,10 @@ export class ListagemProprietarios implements OnInit {
   // Apelidos locais para os signals do store, só para encurtar o template
   proprietarios = this.store.proprietarios;
   carregando = this.store.carregando;
+  // Pegando dados da paginação
+  paginaAtual = this.store.paginaAtual;
+  totalPaginas = this.store.totalPaginas;
+  totalProprietarios = this.store.totalProprietarios;
 
   // id do proprietário em edição na tabela; null quando ninguém está sendo editado
   editandoId = signal<number | null>(null);
@@ -32,6 +36,11 @@ export class ListagemProprietarios implements OnInit {
 
   ngOnInit() {
     this.store.carregarSeNecessario();
+  }
+
+  // Método para trocar de página
+  trocarPagina(pagina: number) {
+    this.store.recarregar(pagina);
   }
 
   verImoveis(p: any) {
