@@ -5,6 +5,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.DecimalMax;
 import jakarta.validation.constraints.DecimalMin;
@@ -20,6 +22,8 @@ import jakarta.persistence.PreUpdate;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+
+import br.com.webgis.proprietario.Proprietario;
 
 @Entity
 @Table(name = "imovel")
@@ -39,10 +43,10 @@ public class Imovel {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 
-	@NotBlank
-	@Size(max = 120)
-	@Column(length = 120)
-	public String proprietario;
+	@NotNull
+	@ManyToOne
+	@JoinColumn(name = "proprietario_id")
+	public Proprietario proprietario;
 
 	@NotBlank
 	@Size(max = 120)

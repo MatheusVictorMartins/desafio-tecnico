@@ -29,7 +29,7 @@
     <tbody>
       @for (i of imoveis(); track i.id) {
         <tr>
-          <td>{{ i.proprietario }}</td>
+          <td>{{ i.proprietario.nome }}</td>
           <td>{{ endereco(i) }}</td>
           <td>{{ i.municipio }}</td>
           <td>{{ i.uf }}</td>
