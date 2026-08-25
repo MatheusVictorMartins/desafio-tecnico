@@ -29,7 +29,7 @@ public class ImovelController {
 	private final ImovelService service;
 
 	@GetMapping
-	public Page<Imovel> listar(@PageableDefault(size = 10) Pageable pageable) {
+	public Page<Imovel> listar(@PageableDefault(size = 10, sort = "id") Pageable pageable) {
 		System.out.println("listando imoveis");
 		return service.listar(pageable);
 	}

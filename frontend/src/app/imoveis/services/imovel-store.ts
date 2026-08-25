@@ -13,7 +13,7 @@ export class ImovelStore {
   carregando = signal(false);
   private carregado = false;
 
-  // Só busca na primeira vez. É isso que evita a requisição
+  // Só busca na primeira vez, evitando requisição
   // ao voltar da edição para a listagem.
   carregarSeNecessario() {
     if (this.carregado) return;

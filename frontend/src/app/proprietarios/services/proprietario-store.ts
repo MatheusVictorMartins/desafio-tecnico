@@ -7,6 +7,9 @@ export class ProprietarioStore {
   private readonly api = 'http://localhost:8080/api/proprietarios';
 
   proprietarios = signal<any[]>([]);
+  paginaAtual = signal(0);
+  totalPaginas = signal(0);
+  totalProprietarios = signal(0);
   carregando = signal(false);
   private carregado = false;
 
@@ -17,10 +20,13 @@ export class ProprietarioStore {
     this.recarregar();
   }
 
-  recarregar() {
+  recarregar(pagina = 0) {
     this.carregando.set(true);
-    this.http.get<any[]>(this.api).subscribe((res) => {
-      this.proprietarios.set(res);
+    this.http.get<any>(`${this.api}?page=${[pagina]}&size=10`).subscribe((res) => {
+      this.proprietarios.set(res.content);
+      this.paginaAtual.set(res.number);
+      this.totalPaginas.set(res.totalPages);
+      this.totalProprietarios.set(res.totalElements);
       this.carregado = true;
       this.carregando.set(false);
     });
@@ -44,6 +50,4 @@ export class ProprietarioStore {
   imoveisDo(id: number) {
     return this.http.get<any[]>(`${this.api}/${id}/imoveis`);
   }
-
-
 }

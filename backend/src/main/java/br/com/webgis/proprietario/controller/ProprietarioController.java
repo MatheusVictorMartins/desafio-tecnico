@@ -2,6 +2,9 @@ package br.com.webgis.proprietario.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,8 +28,8 @@ public class ProprietarioController {
     private final ProprietarioService service;
 
     @GetMapping
-    public List<Proprietario> listar(){
-        return service.listar();
+    public Page<Proprietario> listar(@PageableDefault(size = 10, sort = "id") Pageable pageable){
+        return service.listar(pageable);
     }
 
     @GetMapping("/{id}/imoveis")
