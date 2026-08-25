@@ -10,51 +10,18 @@
   font-size: 16px;
 }
 
-.linha {
-  margin-bottom: 10px;
-}
-
-.linha input,
-.linha select {
-  padding: 5px;
-  margin-right: 5px;
-  border: 1px solid #ccc;
-}
-
-.linha input.largo {
-  width: 40%;
-}
-
-.linha label {
-  margin-right: 5px;
+.resumo {
   font-size: 13px;
   color: #555;
-}
-
-.linha button {
-  padding: 5px 12px;
-  margin-right: 5px;
-  cursor: pointer;
-}
-
-.linha button:disabled {
-  cursor: not-allowed;
-  opacity: 0.5;
-}
-
-.erro {
-  color: #c00;
-  font-size: 12px;
-  margin-right: 10px;
 }
 
 .msg {
   color: green;
 }
 
-.resumo {
-  font-size: 13px;
-  color: #555;
+.erro {
+  color: #c00;
+  font-size: 12px;
 }
 
 table {
@@ -72,6 +39,15 @@ table td {
 
 table th {
   background: #eee;
+}
+
+// mesma aparência dos inputs do formulário de imóveis
+table input {
+  padding: 5px;
+  border: 1px solid #ccc;
+  font-size: 13px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .topo-tabela {

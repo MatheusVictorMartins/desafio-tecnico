@@ -2,11 +2,29 @@
   background: #34495e;
   color: #fff;
   padding: 12px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .topo h1 {
   margin: 0;
   font-size: 20px;
+}
+
+.topo nav {
+  display: flex;
+  gap: 15px;
+}
+
+.topo nav a {
+  color: #f4f4f4;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.topo nav a:hover {
+  text-decoration: underline;
 }
 
 .conteudo {

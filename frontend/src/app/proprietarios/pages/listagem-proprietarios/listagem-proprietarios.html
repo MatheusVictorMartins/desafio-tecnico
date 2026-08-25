@@ -1,0 +1,53 @@
+<div class="caixa">
+  @if (mensagem()) {
+    <p class="msg">{{ mensagem() }}</p>
+  }
+
+  @if (erro()) {
+    <p class="erro">{{ erro() }}</p>
+  }
+
+  @if (carregando()) {
+    <p>Carregando...</p>
+  }
+
+  <div class="topo-tabela">
+    <p class="resumo">{{ proprietarios().length }} proprietário(s)</p>
+    <a class="link-botao" routerLink="/imoveis">Ver todos os imóveis</a>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Proprietário</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (p of proprietarios(); track p.id) {
+        <tr>
+          @if (editandoId() == p.id) {
+            <td>
+              <input
+                type="text"
+                maxlength="120"
+                aria-label="Nome do proprietário"
+                [formControl]="nomeEditado"
+              />
+            </td>
+            <td>
+              <button (click)="salvarNome(p)">Salvar</button>
+              <button (click)="cancelarEdicao()">Cancelar</button>
+            </td>
+          } @else {
+            <td>{{ p.nome }}</td>
+            <td>
+              <button (click)="verImoveis(p)">Ver imóveis</button>
+              <button (click)="iniciarEdicao(p)">Renomear</button>
+            </td>
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

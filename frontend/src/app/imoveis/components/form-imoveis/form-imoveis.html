@@ -3,17 +3,17 @@
     <h2>{{ editandoId() != null ? 'Editar imóvel' : 'Novo imóvel' }}</h2>
 
     <form [formGroup]="form" (ngSubmit)="salvar()" novalidate>
-      <div class="linha">
-        <app-form-campo
-          class="largo"
-          id="proprietario"
-          label="Proprietário"
-          placeholder="Nome completo do proprietário"
-          erro="Informe o proprietário"
-          [maxlength]="120"
-          [requerido]="true"
-          [controle]="form.controls.proprietario"
-        />
+      <div class="campo-forms largo">
+        <label for="proprietario">Proprietário</label>
+        <select id="proprietario" formControlName="proprietarioId">
+          <option [ngValue]="null">Selecione...</option>
+          @for (p of proprietarios(); track p.id) {
+            <option [ngValue]="p.id">{{ p.nome }}</option>
+          }
+        </select>
+        @if (form.controls.proprietarioId.invalid && form.controls.proprietarioId.touched) {
+          <div class="erro">Informe o proprietário</div>
+        }
       </div>
 
       <div class="linha">
@@ -81,7 +81,7 @@
             formControlName="latitude"
           />
           @if (form.controls.latitude.invalid && form.controls.latitude.touched) {
-            <div class="erro">Latitude entre -90 e 90</div>
+            <div class="erro">Informe a latitude, entre -90 e 90</div>
           }
         </div>
 
@@ -95,7 +95,7 @@
             formControlName="longitude"
           />
           @if (form.controls.longitude.invalid && form.controls.longitude.touched) {
-            <div class="erro">Longitude entre -180 e 180</div>
+            <div class="erro">Informe a longitude, entre -180 e 180</div>
           }
         </div>
 
@@ -117,12 +117,16 @@
       <div class="linha acoes">
         <label class="checkbox"><input type="checkbox" formControlName="ativo" /> Ativo</label>
         <button type="submit">Salvar</button>
-        <button type="button" (click)="limpar()">Cancelar</button>
+        <button type="button" (click)="cancelar()">Cancelar</button>
       </div>
     </form>
 
     @if (mensagem()) {
       <p class="msg">{{ mensagem() }}</p>
+    }
+
+    @if (erro()) {
+      <p class="erro-geral">{{ erro() }}</p>
     }
   </div>
 </section>

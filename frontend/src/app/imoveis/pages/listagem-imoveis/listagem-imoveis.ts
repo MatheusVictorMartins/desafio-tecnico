@@ -1,45 +1,41 @@
-import { ChangeDetectorRef, Component, OnInit, viewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { CommonModule } from '@angular/common';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 
-import { FormImoveis } from '../../components/form-imoveis/form-imoveis';
+import { ImovelStore } from '../../services/imovel-store';
 
 @Component({
   selector: 'app-listagem-imoveis',
-  imports: [CommonModule, FormImoveis],
+  imports: [RouterLink],
   templateUrl: './listagem-imoveis.html',
   styleUrl: './listagem-imoveis.scss',
 })
 export class ListagemImoveis implements OnInit {
-  private formulario = viewChild.required(FormImoveis);
+  private router = inject(Router);
+  private store = inject(ImovelStore);
 
-  imoveis: any = [];
-  carregando: any = false;
-  mensagem: any = '';
+  // Apelidos locais para os signals do store, só para encurtar o template
+  imoveis = this.store.imoveis;
+  carregando = this.store.carregando;
 
-  constructor(
-    private http: HttpClient,
-    private cdr: ChangeDetectorRef,
-  ) {}
+  mensagem = signal('');
 
   ngOnInit() {
-    this.carregar();
+    this.store.carregarSeNecessario();
   }
 
-  carregar() {
-    this.carregando = true;
-
-    this.http.get('http://localhost:8080/api/imoveis').subscribe((res: any) => {
-      this.imoveis = res;
-      this.carregando = false;
-      console.log('imoveis', res);
-      this.cdr.detectChanges();
-    });
+  totalArea() {
+    let total = 0;
+    const lista = this.imoveis();
+    for (let i = 0; i < lista.length; i++) {
+      if (lista[i].areaM2 != null) {
+        total = total + Number(lista[i].areaM2);
+      }
+    }
+    return total.toFixed(2);
   }
 
   editar(i: any) {
-    this.formulario().editar(i);
-    window.scrollTo(0, 0);
+    this.router.navigate(['/imoveis', i.id, 'editar']);
   }
 
   excluir(i: any) {
@@ -47,27 +43,13 @@ export class ListagemImoveis implements OnInit {
       return;
     }
 
-    this.http.delete('http://localhost:8080/api/imoveis/' + i.id).subscribe((res: any) => {
-      this.mensagem = 'Imóvel excluído!';
-
-      this.http.get('http://localhost:8080/api/imoveis').subscribe((r: any) => {
-        this.imoveis = r;
-        this.cdr.detectChanges();
-      });
+    this.store.excluir(i.id).subscribe(() => {
+      this.mensagem.set('Imóvel excluído!');
+      this.store.recarregar();
     });
   }
 
   endereco(i: any) {
     return i.rua + ', ' + i.numero + ' - ' + i.bairro;
-  }
-
-  totalArea() {
-    let total = 0;
-    for (let i = 0; i < this.imoveis.length; i++) {
-      if (this.imoveis[i].areaM2 != null) {
-        total = total + Number(this.imoveis[i].areaM2);
-      }
-    }
-    return total.toFixed(2);
   }
 }
