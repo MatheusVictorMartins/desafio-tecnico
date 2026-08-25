@@ -44,4 +44,11 @@ export class ImovelStore {
   atualizarLocal(imovel: any) {
     this.imoveis.update((lista) => lista.map((i) => (i.id === imovel.id ? imovel : i)));
   }
+
+  // Marca o cache como vencido: a próxima visita à listagem busca de novo.
+  // Usado quando algo fora daqui muda um dado que os imóveis exibem — hoje,
+  // o rename do proprietário, que vem aninhado em cada imóvel.
+  invalidar() {
+    this.carregado = false;
+  }
 }

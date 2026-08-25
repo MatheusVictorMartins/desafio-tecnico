@@ -29,4 +29,13 @@ public class ProprietarioService {
         }
         return imovelRepository.findByProprietarioId(id);
     }
+
+    @Transactional
+    public Proprietario renomear(Long id, String novoNome){
+        Proprietario proprietario = repository.findById(id).orElseThrow(() -> new ProprietarioInexistenteException(id));
+
+        proprietario.nome = novoNome;
+
+        return proprietario;
+    }
 }
