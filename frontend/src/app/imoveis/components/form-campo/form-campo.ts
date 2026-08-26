@@ -8,6 +8,7 @@ import { FormControl, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './form-campo.scss',
 })
 export class FormCampo {
+  // Inicializa props do input
   label = input.required<string>();
   id = input.required<string>();
   controle = input.required<FormControl>();
