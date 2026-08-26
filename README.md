@@ -6,8 +6,6 @@ edição, exclusão, gestão de proprietários e visualização em mapa.
 Este repositório contém a **solução** do desafio. O enunciado original está
 preservado em [`docs/ENUNCIADO.md`](docs/ENUNCIADO.md).
 
-<!-- TODO: dois parágrafos seus contando o que é o projeto e como você o abordou. -->
-
 ## Documentação
 
 | Documento                                | Conteúdo                                                         |
