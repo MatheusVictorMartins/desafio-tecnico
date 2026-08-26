@@ -27,7 +27,7 @@ Foi adotado o seguinte critério:
 
 - Para issues de gravidade crítica, foi levado em consideração problemas que afetam diretamente o funcionamento e/ou a segurança do sistema como um todo e a velocidade desses de quebrar o sistema, onde, sem aquilo resolvido, o sistema pode se tornar inutilizável muito rápido.
 - Já para issues de gravidade alta, foi considerado aquelas que são perigosas para o futuro do sistema e seu crescimento, que afetam de certa forma a segurança, mas que ainda permitem o funcionamento atual, mas que podem crescer e impedir que o projeto cresça.
-- Para a gravidade média, foi levado mais em conta aquilo que já permite o funcionamento do sistema, muitas vezes o usuá®io pode não perceber, mas podem abrir brechas para futuros problemas.
+- Para a gravidade média, foi levado mais em conta aquilo que já permite o funcionamento do sistema, muitas vezes o usuário pode não perceber, mas podem abrir brechas para futuros problemas.
 - Por fim, para a baixa, já é levado em consideração problemas que não afetam em nada o funcionamento correto do sistema, e sim coisas mais visuais ou convenções de código.
 
 ## Problemas encontrados

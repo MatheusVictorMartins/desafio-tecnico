@@ -113,7 +113,7 @@ Abre em `http://localhost:4200`.
 | 7   | Mapa                                                    | [#21](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/21) | Entregue     |
 | 8   | Georreferenciamento sem sobreposição (opcional, sênior) | [#22](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/22) | Não entregue |
 
-As decisões de cada uma estão em [`docs/DECISOES.md`](docs/DECISOES.md).
+As decisões de cada uma estão em [`docs/DECISOES.md`](docs/DECISOES.md). Nesse docs, também é apresentado a justificativa da não realização da tarefa 8.
 
 Na revisão da Parte 1, **16 dos 18 problemas encontrados foram corrigidos**,
 incluindo todas as 7 críticas. Os 2 restantes estão listados com justificativa
