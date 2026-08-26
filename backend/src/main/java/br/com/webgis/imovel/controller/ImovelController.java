@@ -32,9 +32,11 @@ public class ImovelController {
 	private final ImovelService service;
 
 	@GetMapping
-	public Page<Imovel> listar(@RequestParam(required = false) String municipio, @RequestParam(required = false) String proprietario, @PageableDefault(size = 10, sort = "id") Pageable pageable) {
-		System.out.println("listando imoveis");
-		return service.listar(municipio,proprietario,pageable);
+	public Page<Imovel> listar(
+			@RequestParam(required = false) String municipio,
+			@RequestParam(required = false) String proprietario,
+			@PageableDefault(size = 10, sort = "id") Pageable pageable) {
+		return service.listar(municipio, proprietario, pageable);
 	}
 
 	@GetMapping("/mapa")

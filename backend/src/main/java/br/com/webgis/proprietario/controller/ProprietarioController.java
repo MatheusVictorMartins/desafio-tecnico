@@ -47,5 +47,3 @@ public class ProprietarioController {
         return service.renomear(id, corpo.nome);
     }
 }
-
-

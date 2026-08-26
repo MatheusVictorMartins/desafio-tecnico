@@ -96,11 +96,6 @@ export class FormImoveis {
     });
   }
 
-  editar(imovel: any) {
-    this.editandoId.set(imovel.id);
-    this.form.patchValue(imovel);
-  }
-
   limpar() {
     this.editandoId.set(null);
     this.form.reset();
