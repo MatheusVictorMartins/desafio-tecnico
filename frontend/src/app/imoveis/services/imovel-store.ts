@@ -1,3 +1,7 @@
+// Os arquivos de store como imovel-store e proprietario-store
+// possuem o objetivo de lidar com armazenamento de dados em
+// memória.
+
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 

@@ -1,3 +1,6 @@
+// Haverá esses arquivos de rotas separados do principal: app.routes.ts
+// Foi feito pra organização e garantir que as rotas estejam corretas com lazy loading
+
 import { Routes } from '@angular/router';
 
 export const proprietariosRoutes: Routes = [
