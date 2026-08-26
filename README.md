@@ -47,6 +47,7 @@ gravidade e a decisão tomada.
 ```bash
 sudo docker compose up -d
 ```
+Ou se for no windows apenas abra o Docker Desktop e aguarde ele inicializar a engine.
 
 Caso seja preciso começar um banco de dados do zero:
 
