@@ -42,8 +42,10 @@
           } @else {
             <td>{{ p.nome }}</td>
             <td>
-              <button (click)="verImoveis(p)">Ver imóveis</button>
-              <button (click)="iniciarEdicao(p)">Renomear</button>
+              <div class="container-botoes">
+                <button (click)="verImoveis(p)">Ver imóveis</button>
+                <button (click)="iniciarEdicao(p)">Renomear</button>
+              </div>
             </td>
           }
         </tr>

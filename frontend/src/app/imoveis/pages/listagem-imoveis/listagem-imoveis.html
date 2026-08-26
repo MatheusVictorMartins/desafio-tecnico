@@ -76,8 +76,10 @@
             <td>{{ i.areaM2 }}</td>
             <td>{{ i.ativo == true ? 'Sim' : 'Não' }}</td>
             <td>
-              <button type="button" (click)="editar(i)">Editar</button>
-              <button type="button" (click)="excluir(i)">Excluir</button>
+              <div class="container-botoes">
+                <button type="button" (click)="editar(i)">Editar</button>
+                <button type="button" (click)="excluir(i)">Excluir</button>
+              </div>
             </td>
           </tr>
         }
