@@ -22,7 +22,7 @@ export class ProprietarioStore {
 
   recarregar(pagina = 0) {
     this.carregando.set(true);
-    this.http.get<any>(`${this.api}?page=${[pagina]}&size=10`).subscribe((res) => {
+    this.http.get<any>(`${this.api}?page=${pagina}&size=10`).subscribe((res) => {
       this.proprietarios.set(res.content);
       this.paginaAtual.set(res.number);
       this.totalPaginas.set(res.totalPages);
@@ -48,6 +48,6 @@ export class ProprietarioStore {
   }
 
   imoveisDo(id: number, pagina = 0) {
-    return this.http.get<any>(`${this.api}/${id}/imoveis?page=${[pagina]}&size=10`);
+    return this.http.get<any>(`${this.api}/${id}/imoveis?page=${pagina}&size=10`);
   }
 }

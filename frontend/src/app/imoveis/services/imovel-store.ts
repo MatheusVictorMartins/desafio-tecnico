@@ -28,7 +28,7 @@ export class ImovelStore {
     this.carregando.set(true);
     this.http
       .get<any>(
-        `${this.api}?page=${[pagina]}&size=10` +
+        `${this.api}?page=${pagina}&size=10` +
           `&municipio=${encodeURIComponent(this.filtroMunicipio())}` +
           `&proprietario=${encodeURIComponent(this.filtroProprietario())}`,
       )

@@ -14,15 +14,26 @@ import { FormCampo } from '../../components/form-campo/form-campo';
 export class ListagemImoveis implements OnInit {
   private router = inject(Router);
   private store = inject(ImovelStore);
-  // Pegar dados da página do store
+
+  // Apelidos locais para os signals do store, só para encurtar o template
+  imoveis = this.store.imoveis;
+  carregando = this.store.carregando;
   paginaAtual = this.store.paginaAtual;
   totalPaginas = this.store.totalPaginas;
   totalImoveis = this.store.totalImoveis;
+
   // Campos do form para os filtros
   filtroMunicipio = new FormControl('', { nonNullable: true });
   filtroProprietario = new FormControl('', { nonNullable: true });
 
-  // Funções dos filtros para pesquisar e limpar estes
+  mensagem = signal('');
+
+  ngOnInit() {
+    this.store.carregarSeNecessario();
+  }
+
+  // Guarda o filtro no store e volta para a primeira página: filtrar estando na
+  // página 4 poderia cair num resultado que só tem 1 página.
   pesquisar() {
     this.store.filtroMunicipio.set(this.filtroMunicipio.value.trim());
     this.store.filtroProprietario.set(this.filtroProprietario.value.trim());
@@ -35,17 +46,6 @@ export class ListagemImoveis implements OnInit {
     this.pesquisar();
   }
 
-  // Apelidos locais para os signals do store, só para encurtar o template
-  imoveis = this.store.imoveis;
-  carregando = this.store.carregando;
-
-  mensagem = signal('');
-
-  ngOnInit() {
-    this.store.carregarSeNecessario();
-  }
-
-  // Método para trocar de página
   trocarPagina(pagina: number) {
     this.store.recarregar(pagina);
   }
@@ -66,7 +66,7 @@ export class ListagemImoveis implements OnInit {
   }
 
   excluir(i: any) {
-    if (confirm('Excluir o imóvel de ' + i.proprietario + '?') == false) {
+    if (confirm('Excluir o imóvel de ' + i.proprietario.nome + '?') == false) {
       return;
     }
 

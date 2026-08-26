@@ -1,15 +1,36 @@
 # Maptriz — Teste Técnico
 
-Cadastro de imóveis georreferenciados. O sistema já funciona: lista, cadastra,
-edita e exclui imóveis.
+Cadastro de imóveis georreferenciados: listagem com filtros e paginação, cadastro,
+edição, exclusão, gestão de proprietários e visualização em mapa.
+
+Este repositório contém a **solução** do desafio. O enunciado original está
+preservado em [`docs/ENUNCIADO.md`](docs/ENUNCIADO.md).
+
+<!-- TODO: dois parágrafos seus contando o que é o projeto e como você o abordou. -->
+
+## Documentação
+
+| Documento                                | Conteúdo                                                         |
+| ---------------------------------------- | ---------------------------------------------------------------- |
+| [`docs/REVISAO.md`](docs/REVISAO.md)     | Parte 1 — problemas encontrados, gravidade e o que foi corrigido |
+| [`docs/DECISOES.md`](docs/DECISOES.md)   | Parte 2 — decisões técnicas de cada tarefa                       |
+| [`docs/ENUNCIADO.md`](docs/ENUNCIADO.md) | Enunciado original do desafio                                    |
+
+O acompanhamento do trabalho foi feito por **GitHub Issues**, com template próprio
+para cada parte: [Parte 1](https://github.com/MatheusVictorMartins/desafio-tecnico/issues?q=label%3Aparte-1) (achados da revisão,
+rotulados por gravidade e área) e [Parte 2](https://github.com/MatheusVictorMartins/desafio-tecnico/issues?q=label%3Aparte-2)
+(tarefas do enunciado). Cada issue registra o problema, a justificativa da
+gravidade e a decisão tomada.
 
 ## Stack
 
-| Camada   | Tecnologia                         |
-| -------- | ---------------------------------- |
-| Backend  | Java 21, Spring Boot 3.5.16, Maven |
-| Banco    | PostgreSQL                         |
-| Frontend | Angular 22                         |
+| Camada   | Tecnologia                                                            |
+| -------- | --------------------------------------------------------------------- |
+| Backend  | Java 21, Spring Boot 3.5.16, Spring Data JPA, Bean Validation, Lombok |
+| Banco    | PostgreSQL, versionado com Flyway                                     |
+| Frontend | Angular 22 (standalone + signals), Reactive Forms, SCSS               |
+| Mapa     | Leaflet 1.9 com tiles do OpenStreetMap                                |
+| Build    | Maven Wrapper, Angular CLI                                            |
 
 ## Pré-requisitos
 
@@ -17,55 +38,59 @@ edita e exclui imóveis.
 - PostgreSQL rodando em `localhost:5432`
 - Node.js 20+
 
-## 1. Banco de dados
+## Como rodar
 
-Use o comando abaixo ou crie manualmente no banco.
+### 1. Banco de dados
+
+#### Opção A - Docker(Recomendada)
+
+```bash
+sudo docker compose up -d
+```
+
+Caso seja preciso começar um banco de dados do zero:
+
+```bash
+sudo docker compose down -v
+sudo docker compose up -d
+```
+
+**Obs: Pode ser necessário caso algum erro de fly way ocorra por conta de alguma tabela antiga. Como por exemplo o erro:**
+
+```bash
+Found non-empty schema without schema history table
+```
+
+#### Opção B - Postgres local sem docker
 
 ```bash
 sudo -u postgres psql -f scripts/setup-db.sql
 ```
 
-Cria o banco `webgis`. A aplicação conecta como o usuário `postgres` (veja
-`backend/src/main/resources/application.properties`) — ajuste ali se o seu
-Postgres usar outra senha. As tabelas são criadas na primeira subida do backend.
+Cria o banco `webgis`. A aplicação conecta como `postgres` — ajuste as
+credenciais em `backend/src/main/resources/application.properties` se o seu
+Postgres usar outra senha.
 
-## 2. Backend
+O schema **não** é gerado pelo Hibernate: `spring.jpa.hibernate.ddl-auto=validate`
+e as tabelas vêm das migrations do Flyway, aplicadas automaticamente na primeira
+subida do backend.
+
+| Migration                           | O que faz                                                                                  |
+| ----------------------------------- | ------------------------------------------------------------------------------------------ |
+| `V1__create_table_imovel.sql`       | Cria a tabela `imovel`                                                                     |
+| `V2__seed_imovel.sql`               | Popula 12 imóveis de exemplo                                                               |
+| `V3__create_table_proprietario.sql` | Cria `proprietario` e migra os nomes que existiam como texto em `imovel`, sem perder dados |
+
+### 2. Backend
 
 ```bash
 cd backend
 ./mvnw spring-boot:run
 ```
 
-Sobe em `http://localhost:8080`. O schema é criado pelo Hibernate a partir da
-entidade `Imovel` (`spring.jpa.hibernate.ddl-auto=update`), e o
-`src/main/resources/data.sql` popula 12 imóveis de exemplo.
+Sobe em `http://localhost:8080`.
 
-### Campos do imóvel
-
-| Campo          | Tipo    | Observação              |
-| -------------- | ------- | ----------------------- |
-| `proprietario` | texto   |                         |
-| `municipio`    | texto   |                         |
-| `uf`           | texto   |                         |
-| `bairro`       | texto   |                         |
-| `rua`          | texto   |                         |
-| `numero`       | texto   | aceita `S/N`, `123-A`   |
-| `latitude`     | número  | graus decimais (WGS 84) |
-| `longitude`    | número  | graus decimais (WGS 84) |
-| `areaM2`       | número  | área do terreno em m²   |
-| `ativo`        | boolean |                         |
-
-### Endpoints
-
-| Método   | Rota                | Descrição              |
-| -------- | ------------------- | ---------------------- |
-| `GET`    | `/api/imoveis`      | Lista todos os imóveis |
-| `GET`    | `/api/imoveis/{id}` | Busca por id           |
-| `POST`   | `/api/imoveis`      | Cadastra               |
-| `PUT`    | `/api/imoveis/{id}` | Atualiza               |
-| `DELETE` | `/api/imoveis/{id}` | Exclui                 |
-
-## 3. Frontend
+### 3. Frontend
 
 ```bash
 cd frontend
@@ -73,139 +98,105 @@ npm install
 npm start
 ```
 
-Abre em `http://localhost:4200` e consome a API em `localhost:8080`.
+Abre em `http://localhost:4200`.
 
-## O exercício
+## O que foi entregue
 
-O código está funcionando, mas **não está bom**.
+| #   | Tarefa                                                  | Issue                                                                    | Status       |
+| --- | ------------------------------------------------------- | ------------------------------------------------------------------------ | ------------ |
+| 1   | Separar em duas páginas                                 | [#14](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/14) | Entregue     |
+| 2   | Filtros na listagem                                     | [#15](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/15) | Entregue     |
+| 3   | Página de edição                                        | [#16](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/16) | Entregue     |
+| 4   | Página de proprietários                                 | [#17](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/17) | Entregue     |
+| 5   | Renomear proprietário                                   | [#18](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/18) | Entregue     |
+| 6   | Preparar a listagem para grande volume                  | [#20](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/20) | Entregue     |
+| 7   | Mapa                                                    | [#21](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/21) | Entregue     |
+| 8   | Georreferenciamento sem sobreposição (opcional, sênior) | [#22](https://github.com/MatheusVictorMartins/desafio-tecnico/issues/22) | Não entregue |
 
-### Parte 1 — revisão
+As decisões de cada uma estão em [`docs/DECISOES.md`](docs/DECISOES.md).
 
-1. Leia o backend e o frontend e **liste os problemas que você encontrar** —
-   segurança, performance, arquitetura, manutenibilidade, boas práticas do
-   Spring e do Angular.
-2. Classifique cada problema por gravidade e explique **por que** é um problema.
-3. **Refatore** o que você considerar mais crítico. Não é necessário corrigir
-   tudo — é mais importante justificar as escolhas e a ordem de prioridade.
+Na revisão da Parte 1, **16 dos 18 problemas encontrados foram corrigidos**,
+incluindo todas as 7 críticas. Os 2 restantes estão listados com justificativa
+em [`docs/REVISAO.md`](docs/REVISAO.md).
 
-Use o sistema antes de ler o código. Cadastre alguns imóveis, edite, exclua.
-O que acontece na tela nem sempre é o que aconteceu no banco.
+## API
 
-### Parte 2 — tarefas
+Base: `http://localhost:8080`
 
-Hoje o sistema é uma tela só, com o formulário e a listagem juntos. As tarefas
-abaixo evoluem isso. A ordem é sugerida, não obrigatória — se você preferir
-outra, explique o porquê.
+### Imóveis
 
-**Não é obrigatório entregar todos os exercícios mas explicar bem os que fez.**
+| Método   | Rota                | Descrição                                           |
+| -------- | ------------------- | --------------------------------------------------- |
+| `GET`    | `/api/imoveis`      | Lista paginada, com filtros                         |
+| `GET`    | `/api/imoveis/mapa` | Lista completa, **sem paginação** — alimenta o mapa |
+| `GET`    | `/api/imoveis/{id}` | Busca por id                                        |
+| `POST`   | `/api/imoveis`      | Cadastra                                            |
+| `PUT`    | `/api/imoveis/{id}` | Atualiza                                            |
+| `DELETE` | `/api/imoveis/{id}` | Exclui                                              |
 
-**1. Separar em duas páginas**
+Parâmetros de `GET /api/imoveis`:
 
-Hoje o cadastro e a listagem dividem a mesma tela. Separe em duas páginas: uma
-para **criar** o imóvel e outra para a **listagem**.
+| Parâmetro      | Padrão | Descrição                                  |
+| -------------- | ------ | ------------------------------------------ |
+| `municipio`    | —      | Filtro parcial, sem diferenciar maiúsculas |
+| `proprietario` | —      | Filtro parcial pelo nome do proprietário   |
+| `page`         | `0`    | Página (base zero)                         |
+| `size`         | `10`   | Registros por página                       |
+| `sort`         | `id`   | Campo de ordenação                         |
 
-**2. Filtros na listagem**
+### Proprietários
 
-A listagem precisa de filtro por **proprietário** e por **município**.
+| Método | Rota                              | Descrição                                                           |
+| ------ | --------------------------------- | ------------------------------------------------------------------- |
+| `GET`  | `/api/proprietarios`              | Lista paginada                                                      |
+| `GET`  | `/api/proprietarios/todos`        | Lista completa, **sem paginação** — alimenta o select do formulário |
+| `GET`  | `/api/proprietarios/{id}/imoveis` | Imóveis do proprietário, paginado                                   |
+| `PUT`  | `/api/proprietarios/{id}`         | Renomeia                                                            |
 
-**3. Página de edição**
+> As duas rotas sem paginação são intencionais: mapa e `<select>` precisam do
+> conjunto inteiro, não de uma página. O motivo está em
+> [`docs/DECISOES.md`](docs/DECISOES.md).
 
-Crie uma terceira página, dedicada a editar o imóvel.
+### Erros
 
-> **Requisito:** ao voltar da edição para a listagem, **não pode haver uma nova
-> requisição**. A listagem deve reaproveitar os dados que já estavam em memória.
+As respostas de erro seguem [RFC 7807 (Problem Details)](https://www.rfc-editor.org/rfc/rfc7807),
+centralizadas em `TratadorDeErros`:
 
-**4. Página de proprietários**
-
-Hoje o proprietário é apenas um campo de texto dentro do imóvel. Modele o
-proprietário como **entidade própria**, com **relacionamento** com o imóvel.
-
-Com isso feito, crie uma página que lista os proprietários. Ao clicar em um
-deles, mostrar os imóveis dos quais ele é dono.
-
-> **Atenção aos dados existentes:** a base já tem imóveis cadastrados com o
-> proprietário em texto. A migração não pode perdê-los.
-
-**5. Renomear proprietário**
-
-Deve ser possível **alterar o nome de um proprietário**.
-
-> **Requisito:** se esse proprietário for dono de mais de um imóvel, a alteração
-> precisa valer para **todos** os imóveis dele.
-
-**6. Preparar a listagem para grande volume**
-
-O seed local tem 12 imóveis, mas o cadastro real vai cobrir mais de mil
-municípios — e muito mais imóveis do que isso. A listagem de hoje carrega e
-renderiza tudo de uma vez, o que nesse cenário quebra dos dois lados: fica
-**lenta** e vira uma tabela **impossível de usar**.
-
-Faça as alterações necessárias para que a listagem se sustente com um grande
-volume de dados, tanto no servidor quanto na interface. Diga o que você mediu ou
-o que assumiu para chegar nas suas escolhas.
-
-**7. Mapa (desejável mas não obrigatório)**
-
-Crie uma tela com um mapa que permita visualizar os imóveis cadastrados.
-
-Cada imóvel deve ser representado no mapa utilizando sua **latitude e longitude**.
-
-Você pode utilizar a biblioteca de mapas que preferir. **OpenStreetMap**, **OpenLayers**, **Leaflet** ou outra solução equivalente são permitidas.
-
-Não é necessário implementar funcionalidades avançadas de GIS. O objetivo é demonstrar que você consegue integrar uma biblioteca de mapas à aplicação, consumir os dados da API e representar informações geográficas na interface.
-
-**Requisitos mínimos:**
-
-- Exibir um mapa.
-- Exibir os imóveis cadastrados como pontos no mapa.
-
-**8. Desafio Opcional — imóveis georreferenciados sem sobreposição (nivel sênior)**
-
-Hoje o imóvel guarda um ponto (`latitude`/`longitude`) e uma área solta em m².
-A ideia aqui é passar a representar a **área real** do imóvel e garantir que dois
-imóveis não ocupem o mesmo espaço.
-
-No cadastro, o sistema recebe a posição geográfica (**latitude** e **longitude**)
-e as dimensões (**largura** e **comprimento**). A partir disso, monte uma
-geometria `POLYGON` com a área do imóvel e persista no banco.
-
-Neste projeto as geometrias são armazenadas com **SRID 31982**:
-
-```sql
-geom public.geometry(POLYGON, 31982) NULL
+```json
+{
+	"type": "about:blank",
+	"title": "Recurso não encontrado!",
+	"status": 404,
+	"detail": "Imóvel 99 não encontrado",
+	"instance": "/api/imoveis/99"
+}
 ```
 
-Antes de inserir, verifique se o polígono gerado **intersecta ou sobrepõe** algum
-imóvel já cadastrado. Se houver conflito, o cadastro é rejeitado e o usuário
-recebe uma mensagem dizendo que a área selecionada conflita com outro imóvel.
+## Rotas do frontend
 
-Requisitos mínimos:
+| Rota                         | Página                           |
+| ---------------------------- | -------------------------------- |
+| `/imoveis`                   | Listagem com filtros e paginação |
+| `/imoveis/cadastra_imoveis`  | Cadastro                         |
+| `/imoveis/:id/editar`        | Edição                           |
+| `/imoveis/mapa`              | Mapa dos imóveis                 |
+| `/proprietarios`             | Listagem de proprietários        |
+| `/proprietarios/:id/imoveis` | Imóveis de um proprietário       |
+| `**`                         | Página 404                       |
 
-- Receber latitude, longitude, largura e comprimento.
-- Gerar o polígono a partir desses dados.
-- Persistir a geometria no banco.
-- Impedir o cadastro quando houver sobreposição.
-- Exibir no mapa os imóveis cadastrados.
+Todas as rotas usam `loadComponent`, então cada página é um bundle carregado sob
+demanda.
 
-Você tem liberdade total na abordagem: conversão das coordenadas, criação do
-polígono, validação da geometria, consulta espacial e comunicação entre frontend
-e backend. **PostGIS não é obrigatório** (extensão do postgres), mas usá-lo conta como diferencial.
+## Estrutura
 
----
+```
+backend/src/main/java/br/com/webgis/
+├── imovel/          controller, service, repository, model, exception
+├── proprietario/    controller, service, repository, model, exception
+└── comum/           TratadorDeErros
 
-Não há uma única resposta certa. Queremos entender como você lê código que já
-existe, como decide o que mexer primeiro, e como escreve código novo dentro de
-uma base que você não escreveu. Explicar uma decisão vale mais do que entregar
-todas as tarefas.
-
----
-
-## Avaliação
-
-Após concluir os projetos, tenha certeza de detalhar as tecnologias utilizadas em seus respectivos READMEs. Após isso, envie os links para os projetos no GitHub para o e-mail processoseletivo@maptriz.com.br.
-
-A equipe técnica da Maptriz realizará um _Code Review_ de seus projetos e, eventualmente, marcará uma reunião remota para discutir a sua solução dos desafios.
-
-## Conclusão
-
-Boa sorte no desafio! A equipe Maptriz deseja muito sucesso para você!
+frontend/src/app/
+├── imoveis/         pages, components, services
+├── proprietarios/   pages, services
+└── pages/           nao-encontrado
+```

@@ -1,4 +1,4 @@
-import { Component, ElementRef, inject, viewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, inject, OnDestroy, viewChild } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import * as L from 'leaflet';
 import { HttpClient } from '@angular/common/http';
@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './mapa-imoveis.html',
   styleUrl: './mapa-imoveis.scss',
 })
-export class MapaImoveis {
+export class MapaImoveis implements AfterViewInit, OnDestroy {
   private http = inject(HttpClient);
   private mapaEl = viewChild.required<ElementRef<HTMLDivElement>>('mapa');
   private mapa?: L.Map;
